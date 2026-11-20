@@ -1,0 +1,1551 @@
+<!DOCTYPE html>
+<html lang="bn">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>সূরা আল-বাকারা: আয়াত ১০-১৫ | ইন্টারেক্টিভ ডিজিটাল শ্রেণিকক্ষ</title>
+
+  <!-- Google Fonts: Hind Siliguri (Bengali) & Amiri (Arabic) -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Amiri:ital,wght@0,400;0,700;1,400&family=Hind+Siliguri:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
+
+  <!-- Tailwind CSS CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            paper: '#FAFAF9',
+            ink: '#1E293B',
+            emeraldBrand: '#065F46',
+            goldBrand: '#B45309',
+          },
+          fontFamily: {
+            sans: ['"Hind Siliguri"', 'sans-serif'],
+            arabic: ['"Amiri"', 'serif'],
+          },
+        },
+      },
+    };
+  </script>
+
+  <style>
+    :root {
+      --bg-paper: #FAFAF9;
+      --card-bg: #FFFFFF;
+      --text-ink: #1E293B;
+      --accent-emerald: #065F46;
+      --accent-gold: #B45309;
+    }
+
+    html, body {
+      background-color: var(--bg-paper);
+      color: var(--text-ink);
+      font-family: 'Hind Siliguri', sans-serif;
+      -webkit-font-smoothing: antialiased;
+      margin: 0;
+      padding: 0;
+      height: 100%;
+      overflow: hidden;
+    }
+
+    /* Arabic Typography with generous line-height to prevent diacritic collision */
+    .arabic-text {
+      font-family: 'Amiri', serif;
+      direction: rtl;
+      unicode-bidi: isolate;
+      line-height: 2.95;
+    }
+
+    .arabic-inline {
+      font-family: 'Amiri', serif;
+      direction: rtl;
+      unicode-bidi: isolate;
+      line-height: 2.2;
+    }
+
+    /* Slide transitions */
+    .slide {
+      display: none;
+      opacity: 0;
+      transition: opacity 0.25s ease;
+    }
+
+    .slide.active {
+      display: flex;
+      opacity: 1;
+    }
+
+    /* Clickable Arabic Words */
+    .word-token {
+      display: inline-block;
+      padding: 0 0.28rem;
+      margin: 0 0.08rem;
+      border-radius: 0.375rem;
+      cursor: pointer;
+      transition: background-color 0.15s ease, color 0.15s ease;
+    }
+
+    .word-token:hover {
+      background-color: #ECFDF5;
+      color: #065F46;
+      text-decoration: underline;
+      text-decoration-color: #B45309;
+      text-underline-offset: 8px;
+      text-decoration-thickness: 1.5px;
+    }
+
+    /* Flashcard 3D Flip */
+    .flip-card {
+      perspective: 1000px;
+      cursor: pointer;
+    }
+
+    .flip-card-inner {
+      position: relative;
+      width: 100%;
+      height: 100%;
+      transition: transform 0.45s cubic-bezier(0.22, 1, 0.36, 1);
+      transform-style: preserve-3d;
+    }
+
+    .flip-card.flipped .flip-card-inner {
+      transform: rotateY(180deg);
+    }
+
+    .flip-card-front,
+    .flip-card-back {
+      position: absolute;
+      inset: 0;
+      backface-visibility: hidden;
+      -webkit-backface-visibility: hidden;
+    }
+
+    .flip-card-back {
+      transform: rotateY(180deg);
+    }
+
+    /* Custom subtle scrollbar for content-heavy slides */
+    .slide-scroll::-webkit-scrollbar {
+      width: 6px;
+    }
+    .slide-scroll::-webkit-scrollbar-track {
+      background: transparent;
+    }
+    .slide-scroll::-webkit-scrollbar-thumb {
+      background: #CBD5E1;
+      border-radius: 9999px;
+    }
+    .slide-scroll::-webkit-scrollbar-thumb:hover {
+      background: #94A3B8;
+    }
+
+    /* Active playing Ayah highlight */
+    .ayah-playing {
+      border-color: #065F46 !important;
+      background-color: #F0FDF4 !important;
+      box-shadow: 0 4px 14px -2px rgba(6, 95, 70, 0.1) !important;
+    }
+  </style>
+</head>
+<body class="flex flex-col h-screen select-none bg-[#FAFAF9] text-[#1E293B]">
+
+  <!-- Top Minimal Header -->
+  <header class="h-14 px-6 lg:px-10 border-b border-slate-200/80 bg-white/90 backdrop-blur-sm flex items-center justify-between shrink-0 z-30">
+    <div class="flex items-center gap-3">
+      <span class="w-2.5 h-2.5 rounded-full bg-[#065F46]"></span>
+      <span class="text-sm font-semibold tracking-wide text-slate-700">সূরা আল-বাকারা (আয়াত ১০-১৫)</span>
+      <span class="hidden sm:inline text-slate-300">|</span>
+      <span class="hidden sm:inline text-xs font-medium text-slate-500">দাখিল ১০ম শ্রেণি • আল-কুরআনুল মাজীদ ও তাজবীদ</span>
+    </div>
+
+    <div class="flex items-center gap-2">
+      <!-- Quick Slide Jump Menu Button -->
+      <button id="menuToggleBtn" class="flex items-center gap-1.5 px-3 py-1.5 text-xs font-medium text-slate-600 bg-slate-50 hover:bg-slate-100 border border-slate-200 rounded-lg transition-colors" title="স্লাইড তালিকা">
+        <svg class="w-4 h-4 text-[#065F46]" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" d="M4 6h16M4 12h16M4 18h10" />
+        </svg>
+        <span class="hidden sm:inline">স্লাইড তালিকা</span>
+      </button>
+
+      <!-- Fullscreen Toggle -->
+      <button id="fullscreenBtn" class="flex items-center gap-1.5 px-3 py-1.5 text-xs font-medium text-slate-600 bg-slate-50 hover:bg-slate-100 border border-slate-200 rounded-lg transition-colors" title="ফুল-স্ক্রিন">
+        <svg id="fsIconEnter" class="w-4 h-4 text-slate-600" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" d="M4 8V4m0 0h4M4 4l5 5m11-1V4m0 0h-4m4 0l-5 5M4 16v4m0 0h4m-4 0l5-5m11 5l-5-5m5 5v-4m0 4h-4" />
+        </svg>
+        <svg id="fsIconExit" class="w-4 h-4 text-slate-600 hidden" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" d="M9 9V4H4m5 5L4 4m11 5h5V4m-5 5l5-5M9 15v5H4m5-5l-5 5m11-5h5v5m-5-5l5 5" />
+        </svg>
+        <span class="hidden sm:inline" id="fsLabel">ফুল-স্ক্রিন</span>
+      </button>
+    </div>
+  </header>
+
+  <!-- Main Presentation Stage -->
+  <main id="presentationStage" class="flex-1 relative overflow-hidden flex flex-col">
+
+    <!-- ==================== SLIDE 1: শিক্ষক পরিচিতি ==================== -->
+    <section class="slide active w-full h-full flex-col items-center justify-center p-6 lg:p-12 overflow-y-auto slide-scroll" data-title="শিক্ষক পরিচিতি">
+      <div class="max-w-3xl w-full text-center space-y-8">
+        <div class="arabic-text text-3xl sm:text-4xl lg:text-5xl text-[#065F46] font-bold tracking-wide">
+          بِسْمِ اللَّهِ الرَّحْمَٰنِ الرَّحِيمِ
+        </div>
+
+        <div class="space-y-2">
+          <p class="text-xl sm:text-2xl font-semibold text-[#B45309]">আসসালামু আলাইকুম ওয়া রাহমাতুল্লাহ</p>
+          <h1 class="text-2xl sm:text-3xl lg:text-4xl font-bold text-slate-800">
+            ইন্টারেক্টিভ ডিজিটাল শ্রেণিকক্ষে সবাইকে স্বাগতম
+          </h1>
+        </div>
+
+        <div class="w-24 h-px bg-slate-300 mx-auto"></div>
+
+        <div class="bg-white border border-slate-200 rounded-2xl p-8 sm:p-10 shadow-sm max-w-xl mx-auto">
+          <p class="text-xs uppercase tracking-widest font-semibold text-[#065F46] mb-3">উপস্থাপনায়</p>
+          <h2 class="text-2xl sm:text-3xl font-bold text-slate-900 mb-2">কাজী উম্মে হাবিবা</h2>
+          <p class="text-lg font-medium text-slate-600 mb-4">প্রভাষক (আরবি)</p>
+          <div class="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-emerald-50/70 border border-emerald-200/70 text-[#065F46] text-sm sm:text-base font-medium">
+            <span>আল জামিয়াতুল ফালাহিয়া কামিল মাদ্রাসা</span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ==================== SLIDE 2: পাঠ পরিচিতি ==================== -->
+    <section class="slide w-full h-full flex-col items-center justify-center p-6 lg:p-12 overflow-y-auto slide-scroll" data-title="পাঠ পরিচিতি">
+      <div class="max-w-5xl w-full space-y-6">
+        <div class="flex items-center justify-between border-b border-slate-200 pb-4">
+          <div>
+            <span class="text-xs font-semibold uppercase tracking-widest text-[#B45309]">স্লাইড ০২</span>
+            <h2 class="text-3xl font-bold text-slate-900 mt-1">পাঠ পরিচিতি</h2>
+          </div>
+          <span class="arabic-inline text-2xl sm:text-3xl text-[#065F46] font-bold">سُورَةُ الْبَقَرَةِ</span>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+          <div class="bg-white border border-slate-200 rounded-xl p-5 shadow-sm">
+            <p class="text-xs font-semibold text-slate-400 uppercase tracking-wider">শ্রেণি</p>
+            <p class="text-xl font-bold text-slate-800 mt-1">দাখিল ১০ম শ্রেণি</p>
+          </div>
+          <div class="bg-white border border-slate-200 rounded-xl p-5 shadow-sm">
+            <p class="text-xs font-semibold text-slate-400 uppercase tracking-wider">বিষয়</p>
+            <p class="text-xl font-bold text-slate-800 mt-1">আল-কুরআনুল মাজীদ ও তাজবীদ</p>
+          </div>
+          <div class="bg-white border border-slate-200 rounded-xl p-5 shadow-sm">
+            <p class="text-xs font-semibold text-slate-400 uppercase tracking-wider">নির্বাচিত সূরা</p>
+            <p class="text-lg font-bold text-[#065F46] mt-1">সূরা আল-বাকারা</p>
+            <p class="text-sm text-slate-600 mt-1">সূরা নং ০২ • মাদানী সূরা • মোট আয়াত: ২৮৬ • মোট রুকু: ৪০</p>
+          </div>
+          <div class="bg-white border border-slate-200 rounded-xl p-5 shadow-sm">
+            <p class="text-xs font-semibold text-slate-400 uppercase tracking-wider">পাঠ্যাংশ</p>
+            <p class="text-xl font-bold text-[#B45309] mt-1">আয়াত ১০-১৫ (মুনাফিকদের চরিত্র)</p>
+          </div>
+        </div>
+
+        <div class="bg-white border border-slate-200 border-l-4 border-l-[#065F46] rounded-xl p-6 shadow-sm">
+          <h3 class="text-base font-bold text-[#065F46] mb-2">নামকরণের সংক্ষিপ্ত তথ্য</h3>
+          <p class="text-base sm:text-lg text-slate-700 leading-relaxed">
+            ‘বাকারা’ (<span class="arabic-inline text-xl font-bold text-slate-900">البقرة</span>) শব্দের অর্থ গাভী। এ সূরার ৬৭-৭৩ নং আয়াতে হযরত মূসা (আ.)-এর যুগে বনী ইসরাইলকে একটি গাভী জবাই করার নির্দেশ ও এর অলৌকিক ঘটনার বিবরণ থাকায় সূরাটির নামকরণ করা হয়েছে ‘সূরা আল-বাকারা’। এটি পবিত্র কুরআনের সর্ববৃহৎ সূরা।
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <!-- ==================== SLIDE 3: পূর্বজ্ঞান যাচাই ও পাঠ ঘোষণা ==================== -->
+    <section class="slide w-full h-full flex-col items-center justify-center p-6 lg:p-12 overflow-y-auto slide-scroll" data-title="পূর্বজ্ঞান যাচাই ও পাঠ ঘোষণা">
+      <div class="max-w-5xl w-full space-y-6">
+        <div class="flex flex-wrap items-end justify-between gap-4 border-b border-slate-200 pb-4">
+          <div>
+            <span class="text-xs font-semibold uppercase tracking-widest text-[#B45309]">স্লাইড ০৩</span>
+            <h2 class="text-3xl font-bold text-slate-900 mt-1">পূর্বজ্ঞান যাচাই ও পাঠ ঘোষণা</h2>
+            <p class="text-sm text-slate-500 mt-1">সূরা আল-বাকারার ১-৯ নং আয়াতের আলোকে মানবজাতির শ্রেণিবিভাগ (কার্ডে ক্লিক করে উত্তর দেখুন)</p>
+          </div>
+          <button id="toggleAllPriorBtn" class="px-4 py-2 text-xs font-semibold text-[#065F46] bg-emerald-50 hover:bg-emerald-100 border border-emerald-200 rounded-lg transition-colors">
+            সব উত্তর দেখুন / লুকান
+          </button>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-5">
+          <!-- Class 1 -->
+          <div class="prior-card bg-white border border-slate-200 rounded-xl p-6 shadow-sm cursor-pointer hover:border-[#065F46] transition-all flex flex-col justify-between" onclick="togglePriorCard(this)">
+            <div>
+              <div class="flex items-center justify-between mb-3">
+                <span class="text-xs font-bold px-2.5 py-1 rounded-full bg-emerald-50 text-[#065F46]">১ম শ্রেণি (আয়াত ১-৫)</span>
+                <span class="text-xs text-slate-400 toggle-hint">ক্লিক করুন</span>
+              </div>
+              <h3 class="text-xl font-bold text-slate-900">মুত্তাকী <span class="arabic-inline text-2xl text-[#065F46] mr-1">المتقون</span></h3>
+            </div>
+            <div class="prior-answer hidden mt-4 pt-4 border-t border-slate-100 text-slate-700 text-base leading-relaxed">
+              যারা গায়েবের প্রতি ঈমান আনে, সালাত কায়েম করে, যাকাত দেয় এবং পূর্ববর্তী ও বর্তমান কিতাবে বিশ্বাস রাখে।
+            </div>
+          </div>
+
+          <!-- Class 2 -->
+          <div class="prior-card bg-white border border-slate-200 rounded-xl p-6 shadow-sm cursor-pointer hover:border-[#065F46] transition-all flex flex-col justify-between" onclick="togglePriorCard(this)">
+            <div>
+              <div class="flex items-center justify-between mb-3">
+                <span class="text-xs font-bold px-2.5 py-1 rounded-full bg-slate-100 text-slate-700">২য় শ্রেণি (আয়াত ৬-৭)</span>
+                <span class="text-xs text-slate-400 toggle-hint">ক্লিক করুন</span>
+              </div>
+              <h3 class="text-xl font-bold text-slate-900">কাফির <span class="arabic-inline text-2xl text-slate-700 mr-1">الكافرون</span></h3>
+            </div>
+            <div class="prior-answer hidden mt-4 pt-4 border-t border-slate-100 text-slate-700 text-base leading-relaxed">
+              যারা প্রকাশ্যে সত্য অস্বীকার করে; যাদের অন্তর ও কানে আল্লাহ মোহর মেরে দিয়েছেন।
+            </div>
+          </div>
+
+          <!-- Class 3 -->
+          <div class="prior-card bg-white border border-amber-300/80 rounded-xl p-6 shadow-sm cursor-pointer hover:border-[#B45309] transition-all flex flex-col justify-between" onclick="togglePriorCard(this)">
+            <div>
+              <div class="flex items-center justify-between mb-3">
+                <span class="text-xs font-bold px-2.5 py-1 rounded-full bg-amber-50 text-[#B45309]">৩য় শ্রেণি (আয়াত ৮-২০)</span>
+                <span class="text-xs text-slate-400 toggle-hint">ক্লিক করুন</span>
+              </div>
+              <h3 class="text-xl font-bold text-slate-900">মুনাফিক <span class="arabic-inline text-2xl text-[#B45309] mr-1">المنافقون</span></h3>
+            </div>
+            <div class="prior-answer hidden mt-4 pt-4 border-t border-slate-100 text-slate-700 text-base leading-relaxed">
+              যারা মুখে ঈমানের দাবি করে কিন্তু অন্তরে কুফরি লালন করে। আজ আমরা তাদের জঘন্য চরিত্র (আয়াত ১০-১৫) পড়ব।
+            </div>
+          </div>
+        </div>
+
+        <div class="bg-[#065F46] text-white rounded-2xl p-6 sm:p-7 shadow-sm text-center">
+          <p class="text-xs uppercase tracking-widest text-emerald-200 font-semibold mb-2">আজকের পাঠ ঘোষণা</p>
+          <p class="text-xl sm:text-2xl font-bold leading-snug">
+            “সূরা আল-বাকারা: আয়াত ১০-১৫ (মুনাফিকদের অন্তরের ব্যাধি, ফাসাদ ও দ্বিমুখী আচরণ)”
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <!-- ==================== SLIDE 4: শিখনফল ==================== -->
+    <section class="slide w-full h-full flex-col items-center justify-center p-6 lg:p-12 overflow-y-auto slide-scroll" data-title="শিখনফল">
+      <div class="max-w-4xl w-full space-y-6">
+        <div class="border-b border-slate-200 pb-4">
+          <span class="text-xs font-semibold uppercase tracking-widest text-[#B45309]">স্লাইড ০৪</span>
+          <h2 class="text-3xl font-bold text-slate-900 mt-1">শিখনফল</h2>
+          <p class="text-base text-slate-500 mt-1">এই পাঠ শেষে শিক্ষার্থীরা যা অর্জন করবে:</p>
+        </div>
+
+        <div class="space-y-4">
+          <div class="bg-white border border-slate-200 rounded-xl p-5 shadow-sm flex items-start gap-4">
+            <span class="w-9 h-9 rounded-lg bg-emerald-50 border border-emerald-200 text-[#065F46] font-bold flex items-center justify-center shrink-0">১</span>
+            <p class="text-lg text-slate-800 leading-relaxed pt-0.5">সূরা আল-বাকারার ১০-১৫ নং আয়াত সহীহ-শুদ্ধভাবে ও তাজবীদসহ তিলাওয়াত করতে পারবে।</p>
+          </div>
+          <div class="bg-white border border-slate-200 rounded-xl p-5 shadow-sm flex items-start gap-4">
+            <span class="w-9 h-9 rounded-lg bg-emerald-50 border border-emerald-200 text-[#065F46] font-bold flex items-center justify-center shrink-0">২</span>
+            <p class="text-lg text-slate-800 leading-relaxed pt-0.5">আয়াতসমূহে ব্যবহৃত গুরুত্বপূর্ণ আরবি শব্দের অর্থ, সমার্থক, বিপরীত শব্দ ও পূর্ণাঙ্গ তাহকীক বর্ণনা করতে পারবে।</p>
+          </div>
+          <div class="bg-white border border-slate-200 rounded-xl p-5 shadow-sm flex items-start gap-4">
+            <span class="w-9 h-9 rounded-lg bg-emerald-50 border border-emerald-200 text-[#065F46] font-bold flex items-center justify-center shrink-0">৩</span>
+            <p class="text-lg text-slate-800 leading-relaxed pt-0.5">মুনাফিকদের অন্তরের ব্যাধি, সমাজে বিশৃঙ্খলা সৃষ্টি ও দ্বিমুখী স্বভাবের স্বরূপ ব্যাখ্যা করতে পারবে।</p>
+          </div>
+          <div class="bg-white border border-slate-200 rounded-xl p-5 shadow-sm flex items-start gap-4">
+            <span class="w-9 h-9 rounded-lg bg-emerald-50 border border-emerald-200 text-[#065F46] font-bold flex items-center justify-center shrink-0">৪</span>
+            <p class="text-lg text-slate-800 leading-relaxed pt-0.5">নিফাক বা কপটতার ভয়াবহ পরিণতি উপলব্ধি করে বাস্তব জীবনে খাঁটি মুমিন হওয়ার শিক্ষা গ্রহণ করতে পারবে।</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ==================== SLIDE 5: প্রেক্ষাপট ==================== -->
+    <section class="slide w-full h-full flex-col items-center justify-center p-6 lg:p-12 overflow-y-auto slide-scroll" data-title="আয়াতের প্রেক্ষাপট">
+      <div class="max-w-5xl w-full space-y-6">
+        <div class="border-b border-slate-200 pb-4">
+          <span class="text-xs font-semibold uppercase tracking-widest text-[#B45309]">স্লাইড ০৫</span>
+          <h2 class="text-3xl font-bold text-slate-900 mt-1">সূরা আল-বাকারার ১০-১৫ আয়াতের প্রেক্ষাপট</h2>
+        </div>
+
+        <div class="bg-white border border-slate-200 border-l-4 border-l-[#B45309] rounded-xl p-6 shadow-sm">
+          <h3 class="text-sm font-bold uppercase tracking-wider text-[#B45309] mb-2">ঐতিহাসিক পটভূমি</h3>
+          <p class="text-base sm:text-lg text-slate-700 leading-relaxed">
+            হিজরতের পর মদীনায় ইসলামের প্রসার ঘটলে আব্দুল্লাহ ইবনে উবাই ও তার অনুসারীরা প্রকাশ্যে ইসলাম গ্রহণ করে কিন্তু গোপনে ইসলামের বিরোধিতা করতে থাকে। আল্লাহ তাআলা এই আয়াতগুলোতে তাদের অন্তরের রোগ, ফাসাদ সৃষ্টি এবং সাহাবীদের উপহাস করার জঘন্য চরিত্র উন্মোচন করেছেন।
+          </p>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-5">
+          <div class="bg-white border border-slate-200 rounded-xl p-6 shadow-sm flex flex-col">
+            <span class="text-xs font-bold text-[#065F46] bg-emerald-50 px-3 py-1 rounded-full self-start mb-3">আয়াত ১০-১১</span>
+            <h3 class="text-lg font-bold text-slate-900 mb-3">অন্তরের ব্যাধি ও ফাসাদ</h3>
+            <p class="text-slate-600 text-base leading-relaxed">
+              মুনাফিকদের অন্তরে সন্দেহ, কপটতা ও হিংসার রোগ বাসা বেঁধেছে। কাফিরদের সাথে গোপন আঁতাতের মাধ্যমে তারা সমাজে ফাসাদ সৃষ্টি করত, অথচ উপদেশ দিলে নিজেদের শান্তিকামী ও সংশোধনকারী (<span class="arabic-inline text-lg font-bold text-[#065F46]">مُصْلِحُونَ</span>) দাবি করত।
+            </p>
+          </div>
+
+          <div class="bg-white border border-slate-200 rounded-xl p-6 shadow-sm flex flex-col">
+            <span class="text-xs font-bold text-[#065F46] bg-emerald-50 px-3 py-1 rounded-full self-start mb-3">আয়াত ১২-১৩</span>
+            <h3 class="text-lg font-bold text-slate-900 mb-3">অজ্ঞতা ও সাহাবীদের উপহাস</h3>
+            <p class="text-slate-600 text-base leading-relaxed">
+              অহংকার ও ভ্রষ্টতার কারণে তারা নিজেদের অধঃপতন উপলব্ধি করে না। সাহাবীদের মতো ঈমান আনার আহ্বান জানানো হলে তারা ধৃষ্টতা দেখিয়ে সাহাবীদের “নির্বোধ” (<span class="arabic-inline text-lg font-bold text-[#B45309]">السُّفَهَاءُ</span>) বলে উপহাস করত।
+            </p>
+          </div>
+
+          <div class="bg-white border border-slate-200 rounded-xl p-6 shadow-sm flex flex-col">
+            <span class="text-xs font-bold text-[#065F46] bg-emerald-50 px-3 py-1 rounded-full self-start mb-3">আয়াত ১৪-১৫</span>
+            <h3 class="text-lg font-bold text-slate-900 mb-3">দ্বিমুখী আচরণ ও আল্লাহর প্রতিফল</h3>
+            <p class="text-slate-600 text-base leading-relaxed">
+              মুমিনদের সামনে সাধু সেজে ঈমানের দাবি করে, আবার একান্তে দুষ্ট নেতাদের (<span class="arabic-inline text-lg font-bold text-slate-800">شَيَاطِينِهِمْ</span>) কাছে গিয়ে বলে তারা কেবল ঠাট্টা করছে। আল্লাহ তাদের এই উপহাসের প্রতিফল দেন এবং অবাধ্যতায় বিভ্রান্ত হয়ে ঘুরে বেড়ানোর অবকাশ দেন।
+            </p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ==================== SLIDE 6: আদর্শ তিলাওয়াত ও শব্দ বিশ্লেষণ ==================== -->
+    <section class="slide w-full h-full flex-col items-center p-5 lg:px-10 lg:py-6 overflow-y-auto slide-scroll" data-title="আদর্শ তিলাওয়াত ও শব্দ বিশ্লেষণ">
+      <div class="max-w-5xl w-full space-y-5 pb-6">
+        <!-- Header & Audio Controls -->
+        <div class="bg-white border border-slate-200 rounded-2xl p-4 sm:p-5 shadow-sm flex flex-wrap items-center justify-between gap-4 sticky top-0 z-20">
+          <div>
+            <span class="text-xs font-semibold uppercase tracking-widest text-[#B45309]">স্লাইড ০৬ • ক্বারী মিশারী রশিদ আল-আফাসী</span>
+            <h2 class="text-xl sm:text-2xl font-bold text-slate-900">আদর্শ তিলাওয়াত ও ক্লিকেবল শব্দ বিশ্লেষণ</h2>
+            <p class="text-xs text-slate-500 mt-0.5">যেকোনো আরবি শব্দে ক্লিক করে তার অর্থ, সমার্থক, বিপরীত ও তাহকীক দেখুন</p>
+          </div>
+
+          <div class="flex flex-wrap items-center gap-2.5">
+            <!-- Play All Sequential Button -->
+            <button id="playAllBtn" class="flex items-center gap-2 px-4 py-2 rounded-lg bg-[#065F46] hover:bg-emerald-900 text-white text-xs sm:text-sm font-semibold transition-colors">
+              <svg id="playAllIcon" class="w-4 h-4" fill="currentColor" viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>
+              <span id="playAllText">সবগুলো ধারাবাহিকভাবে শুনুন</span>
+            </button>
+
+            <!-- Speed Controls -->
+            <div class="flex items-center bg-slate-100 rounded-lg p-1 border border-slate-200" role="group" aria-label="প্লেব্যাক স্পিড">
+              <button class="speed-btn px-2.5 py-1 text-xs font-semibold rounded-md text-slate-600 hover:text-slate-900" data-speed="0.75">0.75x</button>
+              <button class="speed-btn px-2.5 py-1 text-xs font-semibold rounded-md bg-white text-[#065F46] shadow-sm" data-speed="1">1x</button>
+              <button class="speed-btn px-2.5 py-1 text-xs font-semibold rounded-md text-slate-600 hover:text-slate-900" data-speed="1.25">1.25x</button>
+            </div>
+
+            <!-- Translation Show/Hide Toggle -->
+            <button id="toggleTranslationBtn" class="px-3 py-2 rounded-lg border border-slate-200 bg-slate-50 hover:bg-slate-100 text-xs font-semibold text-slate-700 transition-colors">
+              অনুবাদ লুকান
+            </button>
+          </div>
+        </div>
+
+        <!-- Ayah Cards Container -->
+        <div id="ayahListContainer" class="space-y-4"></div>
+      </div>
+    </section>
+
+    <!-- ==================== SLIDE 7: শাব্দিক অর্থ (ফ্ল্যাশকার্ড) ==================== -->
+    <section class="slide w-full h-full flex-col items-center p-6 lg:p-10 overflow-y-auto slide-scroll" data-title="শাব্দিক অর্থ (ফ্ল্যাশকার্ড)">
+      <div class="max-w-6xl w-full space-y-6 pb-6">
+        <div class="flex flex-wrap items-end justify-between gap-4 border-b border-slate-200 pb-4">
+          <div>
+            <span class="text-xs font-semibold uppercase tracking-widest text-[#B45309]">স্লাইড ০৭</span>
+            <h2 class="text-3xl font-bold text-slate-900 mt-1">শাব্দিক অর্থ (ইন্টারঅ্যাক্টিভ ফ্ল্যাশকার্ড)</h2>
+            <p class="text-sm text-slate-500 mt-1">যেকোনো কার্ডে ক্লিক করলে বাংলা অর্থ ও মাদ্দাহ (মূলবর্ণ) প্রদর্শিত হবে</p>
+          </div>
+          <button id="flipAllCardsBtn" class="px-4 py-2 text-xs font-semibold text-[#065F46] bg-emerald-50 hover:bg-emerald-100 border border-emerald-200 rounded-lg transition-colors">
+            সব কার্ড উল্টে দেখুন
+          </button>
+        </div>
+
+        <div id="flashcardsGrid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4"></div>
+      </div>
+    </section>
+
+    <!-- ==================== SLIDE 8: একক কাজ (২ মিনিট টাইমার) ==================== -->
+    <section class="slide w-full h-full flex-col items-center justify-center p-6 lg:p-12 overflow-y-auto slide-scroll" data-title="একক কাজ">
+      <div class="max-w-4xl w-full space-y-6">
+        <div class="flex flex-wrap items-center justify-between gap-4 border-b border-slate-200 pb-4">
+          <div>
+            <span class="text-xs font-semibold uppercase tracking-widest text-[#B45309]">স্লাইড ০৮ • ব্যক্তিগত অনুশীলন</span>
+            <h2 class="text-3xl font-bold text-slate-900 mt-1">একক কাজ</h2>
+          </div>
+          <!-- Smart Timer Widget -->
+          <div class="timer-widget bg-white border border-slate-200 rounded-xl px-5 py-3 shadow-sm flex items-center gap-4" data-seconds="120">
+            <div class="text-2xl font-bold font-mono text-[#065F46] timer-display">০২:০০</div>
+            <div class="flex items-center gap-1.5">
+              <button class="timer-start px-3 py-1.5 text-xs font-semibold rounded-lg bg-[#065F46] text-white hover:bg-emerald-900 transition-colors">শুরু</button>
+              <button class="timer-pause px-3 py-1.5 text-xs font-semibold rounded-lg bg-amber-50 text-[#B45309] border border-amber-200 hover:bg-amber-100 transition-colors">বিরতি</button>
+              <button class="timer-reset px-3 py-1.5 text-xs font-semibold rounded-lg bg-slate-100 text-slate-600 hover:bg-slate-200 transition-colors">রিসেট</button>
+            </div>
+          </div>
+        </div>
+
+        <div class="bg-white border border-slate-200 rounded-2xl p-7 sm:p-9 shadow-sm space-y-6">
+          <div class="flex items-start gap-4">
+            <span class="w-8 h-8 rounded-full bg-emerald-50 border border-emerald-200 text-[#065F46] font-bold flex items-center justify-center shrink-0 mt-1">১</span>
+            <div class="space-y-3">
+              <p class="text-xl font-semibold text-slate-800">নিচের ৫টি আরবি শব্দের বাংলা অর্থ লেখো:</p>
+              <div class="flex flex-wrap gap-3 pt-1" dir="rtl">
+                <span class="arabic-inline text-2xl sm:text-3xl px-4 py-1.5 bg-stone-50 border border-slate-200 rounded-xl text-[#065F46] font-bold">مَرَضٌ</span>
+                <span class="arabic-inline text-2xl sm:text-3xl px-4 py-1.5 bg-stone-50 border border-slate-200 rounded-xl text-[#065F46] font-bold">مُصْلِحُونَ</span>
+                <span class="arabic-inline text-2xl sm:text-3xl px-4 py-1.5 bg-stone-50 border border-slate-200 rounded-xl text-[#065F46] font-bold">السُّفَهَاءُ</span>
+                <span class="arabic-inline text-2xl sm:text-3xl px-4 py-1.5 bg-stone-50 border border-slate-200 rounded-xl text-[#065F46] font-bold">شَيَاطِينِهِمْ</span>
+                <span class="arabic-inline text-2xl sm:text-3xl px-4 py-1.5 bg-stone-50 border border-slate-200 rounded-xl text-[#065F46] font-bold">يَعْمَهُونَ</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="h-px bg-slate-100"></div>
+
+          <div class="flex items-start gap-4">
+            <span class="w-8 h-8 rounded-full bg-emerald-50 border border-emerald-200 text-[#065F46] font-bold flex items-center justify-center shrink-0 mt-1">২</span>
+            <p class="text-xl font-medium text-slate-800 leading-relaxed">
+              মুনাফিকরা মুমিনদের সাথে দেখা হলে কী বলত এবং গোপনে তাদের নেতাদের কাছে গিয়ে কী বলত? (আয়াত ১৪ অনুযায়ী সংক্ষেপে লেখো)।
+            </p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ==================== SLIDE 9: নির্বাচিত শব্দের তাহকীক বিশ্লেষণ ==================== -->
+    <section class="slide w-full h-full flex-col items-center justify-center p-6 lg:p-10 overflow-y-auto slide-scroll" data-title="তাহকীক বিশ্লেষণ">
+      <div class="max-w-5xl w-full space-y-6">
+        <div class="border-b border-slate-200 pb-4">
+          <span class="text-xs font-semibold uppercase tracking-widest text-[#B45309]">স্লাইড ০৯ • ব্যাকরণগত বিশ্লেষণ</span>
+          <h2 class="text-3xl font-bold text-slate-900 mt-1">নির্বাচিত শব্দের তাহকীক বিশ্লেষণ</h2>
+          <p class="text-sm text-slate-500 mt-1">বাম পাশের যেকোনো শব্দে ক্লিক করে তার পূর্ণাঙ্গ সিগাহ, বহস, বাব, মাদ্দাহ ও জিনস দেখুন</p>
+        </div>
+
+        <div class="grid grid-cols-1 lg:grid-cols-12 gap-6 items-start">
+          <!-- Left: 9 Words Selector Grid -->
+          <div id="tahqiqWordList" class="lg:col-span-5 grid grid-cols-3 gap-3" dir="rtl"></div>
+
+          <!-- Right: Interactive Detail Tree View -->
+          <div id="tahqiqDetailCard" class="lg:col-span-7 bg-white border border-slate-200 rounded-2xl p-6 sm:p-8 shadow-sm">
+            <!-- Populated by JS -->
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ==================== SLIDE 10: জোড়ায় কাজ (৩ মিনিট টাইমার) ==================== -->
+    <section class="slide w-full h-full flex-col items-center justify-center p-6 lg:p-12 overflow-y-auto slide-scroll" data-title="জোড়ায় কাজ">
+      <div class="max-w-4xl w-full space-y-6">
+        <div class="flex flex-wrap items-center justify-between gap-4 border-b border-slate-200 pb-4">
+          <div>
+            <span class="text-xs font-semibold uppercase tracking-widest text-[#B45309]">স্লাইড ১০ • সহপাঠী আলোচনা</span>
+            <h2 class="text-3xl font-bold text-slate-900 mt-1">জোড়ায় কাজ</h2>
+          </div>
+          <!-- Smart Timer Widget -->
+          <div class="timer-widget bg-white border border-slate-200 rounded-xl px-5 py-3 shadow-sm flex items-center gap-4" data-seconds="180">
+            <div class="text-2xl font-bold font-mono text-[#065F46] timer-display">০৩:০০</div>
+            <div class="flex items-center gap-1.5">
+              <button class="timer-start px-3 py-1.5 text-xs font-semibold rounded-lg bg-[#065F46] text-white hover:bg-emerald-900 transition-colors">শুরু</button>
+              <button class="timer-pause px-3 py-1.5 text-xs font-semibold rounded-lg bg-amber-50 text-[#B45309] border border-amber-200 hover:bg-amber-100 transition-colors">বিরতি</button>
+              <button class="timer-reset px-3 py-1.5 text-xs font-semibold rounded-lg bg-slate-100 text-slate-600 hover:bg-slate-200 transition-colors">রিসেট</button>
+            </div>
+          </div>
+        </div>
+
+        <div class="grid grid-cols-1 gap-5">
+          <div class="bg-white border border-slate-200 rounded-2xl p-7 shadow-sm">
+            <span class="inline-block text-xs font-bold uppercase tracking-wider text-[#065F46] bg-emerald-50 px-3 py-1 rounded-full mb-3">কাজ ১</span>
+            <p class="text-xl text-slate-800 leading-relaxed">
+              মুনাফিকদের দৃষ্টিভঙ্গি এবং বাস্তব সত্যের মধ্যে পার্থক্য ছক আকারে লেখো (যেমন: তারা নিজেদের কী মনে করে বনাম আল্লাহ তাদের কী বলেছেন)।
+            </p>
+          </div>
+
+          <div class="bg-white border border-slate-200 rounded-2xl p-7 shadow-sm">
+            <span class="inline-block text-xs font-bold uppercase tracking-wider text-[#B45309] bg-amber-50 px-3 py-1 rounded-full mb-3">কাজ ২</span>
+            <p class="text-xl text-slate-800 leading-relaxed">
+              <span class="arabic-inline text-2xl font-bold text-[#065F46] mx-1">إِنَّمَا نَحْنُ مُصْلِحُونَ</span> এবং <span class="arabic-inline text-2xl font-bold text-[#B45309] mx-1">أَلَا إِنَّهُمْ هُمُ الْمُفْسِدُونَ</span> বাক্য দুটির মধ্যে অর্থগত ও ভাবগত জোর কীভাবে প্রয়োগ করা হয়েছে তা আলোচনা করো।
+            </p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ==================== SLIDE 11: দলগত কাজ (৫ মিনিট টাইমার) ==================== -->
+    <section class="slide w-full h-full flex-col items-center justify-center p-6 lg:p-12 overflow-y-auto slide-scroll" data-title="দলগত কাজ">
+      <div class="max-w-5xl w-full space-y-6">
+        <div class="flex flex-wrap items-center justify-between gap-4 border-b border-slate-200 pb-4">
+          <div>
+            <span class="text-xs font-semibold uppercase tracking-widest text-[#B45309]">স্লাইড ১১ • সমন্বিত অনুশীলন</span>
+            <h2 class="text-3xl font-bold text-slate-900 mt-1">দলগত কাজ</h2>
+          </div>
+          <!-- Smart Timer Widget -->
+          <div class="timer-widget bg-white border border-slate-200 rounded-xl px-5 py-3 shadow-sm flex items-center gap-4" data-seconds="300">
+            <div class="text-2xl font-bold font-mono text-[#065F46] timer-display">০৫:০০</div>
+            <div class="flex items-center gap-1.5">
+              <button class="timer-start px-3 py-1.5 text-xs font-semibold rounded-lg bg-[#065F46] text-white hover:bg-emerald-900 transition-colors">শুরু</button>
+              <button class="timer-pause px-3 py-1.5 text-xs font-semibold rounded-lg bg-amber-50 text-[#B45309] border border-amber-200 hover:bg-amber-100 transition-colors">বিরতি</button>
+              <button class="timer-reset px-3 py-1.5 text-xs font-semibold rounded-lg bg-slate-100 text-slate-600 hover:bg-slate-200 transition-colors">রিসেট</button>
+            </div>
+          </div>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-5">
+          <div class="bg-white border border-slate-200 border-t-4 border-t-[#065F46] rounded-xl p-6 shadow-sm flex flex-col">
+            <span class="text-xs font-bold text-[#065F46] mb-1">দল ‘ক’ (আবুবকর রা. দল)</span>
+            <h3 class="text-lg font-bold text-slate-900 mb-3">সামাজিক বিশৃঙ্খলা প্রতিরোধ</h3>
+            <p class="text-slate-700 text-base leading-relaxed">
+              “মুনাফিকরা ফাসাদ সৃষ্টি করেও নিজেদের সংশোধনকারী দাবি করে”। বর্তমান সমাজে এ ধরনের দ্বিমুখী আচরণের ৩টি উদাহরণ ও প্রতিকার লেখো।
+            </p>
+          </div>
+
+          <div class="bg-white border border-slate-200 border-t-4 border-t-[#B45309] rounded-xl p-6 shadow-sm flex flex-col">
+            <span class="text-xs font-bold text-[#B45309] mb-1">দল ‘খ’ (উমর রা. দল)</span>
+            <h3 class="text-lg font-bold text-slate-900 mb-3">সাহাবীদের মর্যাদা ও আনুগত্য</h3>
+            <p class="text-slate-700 text-base leading-relaxed">
+              আয়াত ১৩-এর আলোকে সাহাবায়ে কিরামের ঈমানের মানদণ্ড কেন আমাদের জন্য অনুসরণীয় তা ৫টি বাক্যে বিশ্লেষণ করো।
+            </p>
+          </div>
+
+          <div class="bg-white border border-slate-200 border-t-4 border-t-slate-700 rounded-xl p-6 shadow-sm flex flex-col">
+            <span class="text-xs font-bold text-slate-600 mb-1">দল ‘গ’ (উসমান রা. দল)</span>
+            <h3 class="text-lg font-bold text-slate-900 mb-3">ব্যাকরণ ও শব্দ বিশ্লেষণ</h3>
+            <p class="text-slate-700 text-base leading-relaxed">
+              আয়াত ১৪-১৫ থেকে ৩টি ক্রিয়াপদ (<span class="arabic-inline text-xl font-bold text-slate-900">فعل</span>) খুঁজে বের করে সেগুলোর বহস, বাব ও মাদ্দাহ তালিকাভুক্ত করো।
+            </p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ==================== SLIDE 12: মূল্যায়ন কুইজ ==================== -->
+    <section class="slide w-full h-full flex-col items-center p-6 lg:p-10 overflow-y-auto slide-scroll" data-title="মূল্যায়ন কুইজ">
+      <div class="max-w-4xl w-full space-y-6 pb-8">
+        <div class="flex flex-wrap items-center justify-between gap-4 border-b border-slate-200 pb-4">
+          <div>
+            <span class="text-xs font-semibold uppercase tracking-widest text-[#B45309]">স্লাইড ১২ • শ্রেণি মূল্যায়ন</span>
+            <h2 class="text-3xl font-bold text-slate-900 mt-1">মূল্যায়ন কুইজ</h2>
+          </div>
+          <div class="flex items-center gap-3">
+            <div id="quizScoreBadge" class="px-4 py-1.5 rounded-full bg-emerald-50 border border-emerald-200 text-[#065F46] text-sm font-bold">
+              স্কোর: ০ / ৫
+            </div>
+            <button id="resetQuizBtn" class="px-4 py-1.5 rounded-lg border border-slate-200 bg-white hover:bg-slate-50 text-xs font-semibold text-slate-700 transition-colors">
+              পুনরায় চেষ্টা করুন
+            </button>
+          </div>
+        </div>
+
+        <div id="quizContainer" class="space-y-5"></div>
+
+        <div id="quizSummaryBox" class="hidden bg-[#065F46] text-white rounded-2xl p-6 text-center space-y-2 shadow-sm">
+          <p class="text-sm uppercase tracking-widest text-emerald-200 font-semibold">মূল্যায়ন সম্পন্ন</p>
+          <p id="quizSummaryText" class="text-2xl font-bold"></p>
+          <button onclick="resetQuiz()" class="mt-3 px-5 py-2 rounded-lg bg-white text-[#065F46] text-sm font-bold hover:bg-emerald-50 transition-colors">
+            পুনরায় চেষ্টা করুন
+          </button>
+        </div>
+      </div>
+    </section>
+
+    <!-- ==================== SLIDE 13: বাস্তব আমল, বাড়ির কাজ ও সমাপ্তি ==================== -->
+    <section class="slide w-full h-full flex-col items-center justify-center p-6 lg:p-10 overflow-y-auto slide-scroll" data-title="বাস্তব আমল, বাড়ির কাজ ও সমাপ্তি">
+      <div class="max-w-5xl w-full space-y-6">
+        <div class="border-b border-slate-200 pb-3">
+          <span class="text-xs font-semibold uppercase tracking-widest text-[#B45309]">স্লাইড ১৩</span>
+          <h2 class="text-3xl font-bold text-slate-900 mt-1">বাস্তব আমল, বাড়ির কাজ ও সমাপ্তি</h2>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-5">
+          <!-- Practical Lessons -->
+          <div class="bg-white border border-slate-200 rounded-2xl p-6 shadow-sm space-y-3">
+            <h3 class="text-lg font-bold text-[#065F46] border-b border-slate-100 pb-2">বাস্তব জীবনের আমল ও শিক্ষা</h3>
+            <ul class="space-y-2.5 text-slate-700 text-base leading-relaxed list-disc pl-5">
+              <li>কথা ও কাজের মধ্যে পরিপূর্ণ মিল রাখা এবং সকল প্রকার কপটতা ও দ্বিমুখী আচরণ পরিহার করা।</li>
+              <li>অন্তরে ঈমান ও সৎকর্ম সম্পর্কে কোনো সন্দেহ জাগলে কুরআন ও সুন্নাহর জ্ঞানের মাধ্যমে তা দূর করা।</li>
+              <li>সত্যিকারের ঈমানদার ও নেককার মানুষদের কখনো তুচ্ছ-তাচ্ছিল্য বা উপহাস না করা।</li>
+              <li>সমাজে প্রকৃত শান্তি ও সংশোধনের (ইসলাহ) কাজ করা, গোপনে কোনো বিশৃঙ্খলা না ছড়ানো।</li>
+            </ul>
+          </div>
+
+          <!-- Homework -->
+          <div class="bg-white border border-slate-200 rounded-2xl p-6 shadow-sm space-y-3">
+            <h3 class="text-lg font-bold text-[#B45309] border-b border-slate-100 pb-2">বাড়ির কাজ (Home Work)</h3>
+            <ol class="space-y-3 text-slate-700 text-base leading-relaxed list-decimal pl-5">
+              <li>সূরা আল-বাকারার ১০-১৫ নং আয়াতের সরল অনুবাদ সুন্দর হস্তাক্ষরে খাতায় লিখে আনবে।</li>
+              <li>আয়াতগুলো থেকে ৫টি ফাসাদ ও নিফাক-সংক্রান্ত বৈশিষ্ট্য তালিকাভুক্ত করবে।</li>
+              <li>
+                নিচের ৩টি শব্দের পূর্ণাঙ্গ তাহকীক অনুশীলন করবে:
+                <div class="mt-2 flex flex-wrap gap-2" dir="rtl">
+                  <span class="arabic-inline text-xl px-3 py-0.5 bg-stone-50 border border-slate-200 rounded-lg text-[#065F46] font-bold">فَزَادَهُمُ</span>
+                  <span class="arabic-inline text-xl px-3 py-0.5 bg-stone-50 border border-slate-200 rounded-lg text-[#065F46] font-bold">مُسْتَهْزِئُونَ</span>
+                  <span class="arabic-inline text-xl px-3 py-0.5 bg-stone-50 border border-slate-200 rounded-lg text-[#065F46] font-bold">يَعْمَهُونَ</span>
+                </div>
+              </li>
+            </ol>
+          </div>
+        </div>
+
+        <!-- Closing Card -->
+        <div class="bg-white border border-slate-200 rounded-2xl p-6 text-center shadow-sm space-y-2">
+          <div class="arabic-text text-3xl sm:text-4xl font-bold text-[#065F46]">جَزَاكُمُ اللَّهُ خَيْرًا كَثِيرًا</div>
+          <p class="text-lg font-semibold text-slate-800">সবাইকে আন্তরিক ধন্যবাদ • আল্লাহ আমাদের খাঁটি মুমিন হওয়ার তাওফীক দিন</p>
+          <p class="text-sm text-slate-500">কাজী উম্মে হাবিবা • প্রভাষক (আরবি), আল জামিয়াতুল ফালাহিয়া কামিল মাদ্রাসা</p>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- Bottom Minimal Navigation Bar & Progress -->
+  <footer class="h-14 bg-white border-t border-slate-200/80 px-6 lg:px-10 flex items-center justify-between shrink-0 relative z-30">
+    <!-- Minimal Progress Bar -->
+    <div class="absolute top-0 left-0 right-0 h-0.5 bg-slate-100">
+      <div id="progressBar" class="h-full bg-[#065F46] transition-all duration-300" style="width: 7.69%;"></div>
+    </div>
+
+    <div class="flex items-center gap-3">
+      <span id="slideCounter" class="text-sm font-bold text-[#065F46] tabular-nums">০১ / ১৩</span>
+      <span class="text-slate-300">|</span>
+      <span id="currentSlideTitle" class="text-sm font-medium text-slate-600 truncate max-w-[180px] sm:max-w-xs">শিক্ষক পরিচিতি</span>
+    </div>
+
+    <div class="flex items-center gap-2">
+      <button id="prevSlideBtn" class="flex items-center gap-1 px-3.5 py-1.5 rounded-lg border border-slate-200 bg-white hover:bg-slate-50 text-sm font-semibold text-slate-700 disabled:opacity-40 disabled:cursor-not-allowed transition-colors">
+        <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M15 19l-7-7 7-7"/></svg>
+        <span>পূর্ববর্তী</span>
+      </button>
+      <button id="nextSlideBtn" class="flex items-center gap-1 px-3.5 py-1.5 rounded-lg bg-[#065F46] hover:bg-emerald-900 text-white text-sm font-semibold disabled:opacity-40 disabled:cursor-not-allowed transition-colors">
+        <span>পরবর্তী</span>
+        <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M9 5l7 7-7 7"/></svg>
+      </button>
+    </div>
+  </footer>
+
+  <!-- Quick Slide Jump Drawer -->
+  <div id="slideMenuOverlay" class="fixed inset-0 bg-slate-900/30 backdrop-blur-[1px] z-40 hidden">
+    <div class="absolute right-0 top-0 bottom-0 w-80 max-w-full bg-white border-l border-slate-200 shadow-xl flex flex-col">
+      <div class="p-4 border-b border-slate-200 flex items-center justify-between">
+        <h3 class="text-base font-bold text-slate-800">স্লাইড তালিকা (১৩টি)</h3>
+        <button id="closeMenuBtn" class="p-1.5 rounded-lg hover:bg-slate-100 text-slate-500">
+          <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12"/></svg>
+        </button>
+      </div>
+      <div id="slideMenuList" class="flex-1 overflow-y-auto p-3 space-y-1 slide-scroll"></div>
+    </div>
+  </div>
+
+  <!-- Word Analysis Modal (Slide 6) -->
+  <div id="wordModal" class="fixed inset-0 bg-slate-900/40 backdrop-blur-[2px] z-50 hidden items-center justify-center p-4">
+    <div class="bg-white border border-slate-200 rounded-2xl max-w-lg w-full shadow-xl overflow-hidden">
+      <div class="px-6 py-4 bg-stone-50 border-b border-slate-200 flex items-center justify-between">
+        <span class="text-xs font-bold uppercase tracking-wider text-[#B45309]">শব্দ ও তাহকীক বিশ্লেষণ</span>
+        <button id="closeWordModalBtn" class="p-1.5 rounded-lg hover:bg-slate-200/60 text-slate-500">
+          <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12"/></svg>
+        </button>
+      </div>
+      <div id="wordModalBody" class="p-6 space-y-5"></div>
+    </div>
+  </div>
+
+  <script>
+    // ==================== UTILITIES ====================
+    const bnDigits = ['০', '১', '২', '৩', '৪', '৫', '৬', '৭', '৮', '৯'];
+    function toBn(num) {
+      return String(num).replace(/\d/g, d => bnDigits[d]);
+    }
+
+    // ==================== COMPLETE DICTIONARY DATABASE (SLIDE 6) ====================
+    const WORD_DICTIONARY = {
+      "فِي": { word: "فِي", meaning: "মধ্যে / অভ্যন্তরে", synonym: "دَاخِلَ", antonym: "خَارِجَ", sigah: "حرف جر (হরুফে যার)", bahas: "مبني (অব্যয়)", bab: "প্রযোজ্য নয়", maddah: "-", jins: "حرف" },
+      "قُلُوبِهِمْ": { word: "قُلُوبِهِمْ", meaning: "তাদের অন্তরসমূহে", synonym: "أَفْئِدَتِهِمْ", antonym: "أَبْدَانِهِمْ", sigah: "جمع مكسر + ضمير متصل", bahas: "اسم جامد / مشتق", bab: "نَصَرَ (قَلَبَ)", maddah: "ق ل ب", jins: "صحيح سالم" },
+      "مَرَضٌ": { word: "مَرَضٌ", meaning: "ব্যাধি, রোগ (সন্দেহ ও কপটতা)", synonym: "دَاءٌ / سَقَمٌ", antonym: "شِفَاءٌ / صِحَّةٌ", sigah: "واحد مذكر (নাকিরাহ)", bahas: "مصدر / اسم", bab: "سَمِعَ يَسْمَعُ", maddah: "م ر ض", jins: "صحيح سالم" },
+      "فَزَادَهُمُ": { word: "فَزَادَهُمُ", meaning: "অতঃপর তিনি তাদের বাড়িয়ে দিলেন", synonym: "كَثَّرَ / ضَاعَفَ", antonym: "نَقَصَ / قَلَّلَ", sigah: "واحد مذكر غائب", bahas: "فعل ماضٍ مثبت معروف", bab: "ضَرَبَ يَضْرِبُ", maddah: "ز ي د", jins: "أجوف يائي" },
+      "اللَّهُ": { word: "اللَّهُ", meaning: "আল্লাহ (মহান স্রষ্টা)", synonym: "الرَّبُّ / الْإِلَهُ", antonym: "প্রযোজ্য নয়", sigah: "اسم الجلالة (واحد)", bahas: "اسم علم (خاص)", bab: "প্রযোজ্য নয়", maddah: "أ ل هـ", jins: "مهموز الفاء" },
+      "مَرَضًا": { word: "مَرَضًا", meaning: "ব্যাধিতে / রোগ আরও", synonym: "عِلَّةً / دَاءً", antonym: "عَافِيَةً", sigah: "واحد مذكر (منصوب)", bahas: "مصدر (تمييز)", bab: "سَمِعَ يَسْمَعُ", maddah: "م ر ض", jins: "صحيح سالم" },
+      "وَلَهُمْ": { word: "وَلَهُمْ", meaning: "এবং তাদের জন্য রয়েছে", synonym: "وَعِنْدَهُمْ", antonym: "وَعَلَيْهِمْ", sigah: "حرف عطف + جار ومجرور", bahas: "حرف ও ضمير", bab: "প্রযোজ্য নয়", maddah: "-", jins: "حرف" },
+      "عَذَابٌ": { word: "عَذَابٌ", meaning: "শাস্তি, আজাব", synonym: "عِقَابٌ / نَكَالٌ", antonym: "ثَوَابٌ / نَعِيمٌ", sigah: "واحد مذكر (نكرة)", bahas: "اسم / مصدر", bab: "نَصَرَ يَنْصُرُ", maddah: "ع ذ ب", jins: "صحيح سالم" },
+      "أَلِيمٌ": { word: "أَلِيمٌ", meaning: "যন্ত্রণাদায়ক, বেদনাদায়ক", synonym: "مُؤْلِمٌ / مُوجِعٌ", antonym: "لَذِيذٌ / مَرِيحٌ", sigah: "واحد مذكر (صفة مشبهة)", bahas: "اسم مشتق", bab: "سَمِعَ يَسْمَعُ", maddah: "أ ل م", jins: "مهموز الفاء" },
+      "بِمَا": { word: "بِمَا", meaning: "এই কারণে যে / যা তারা", synonym: "بِسَبَبِ مَا", antonym: "-", sigah: "حرف جر + ما مصدرية", bahas: "حرف", bab: "প্রযোজ্য নয়", maddah: "-", jins: "حرف" },
+      "كَانُوا": { word: "كَانُوا", meaning: "তারা ছিল / করত", synonym: "صَارُوا / وُجِدُوا", antonym: "زَالُوا", sigah: "جمع مذكر غائب", bahas: "فعل ماضٍ ناقص", bab: "نَصَرَ يَنْصُرُ", maddah: "ك و ن", jins: "أجوف واوي" },
+      "يَكْذِبُونَ": { word: "يَكْذِبُونَ", meaning: "তারা মিথ্যা বলত", synonym: "يَفْتَرُونَ", antonym: "يَصْدُقُونَ", sigah: "جمع مذكر غائب", bahas: "فعل مضارع مثبت معروف", bab: "ضَرَبَ يَضْرِبُ", maddah: "ك ذ ب", jins: "صحيح سالم" },
+      "وَإِذَا": { word: "وَإِذَا", meaning: "আর যখন", synonym: "وَحِينَ / وَعِنْدَمَا", antonym: "-", sigah: "ظرف زمان (شرطية)", bahas: "اسم مبني", bab: "প্রযোজ্য নয়", maddah: "-", jins: "حرف/اسم" },
+      "قِيلَ": { word: "قِيلَ", meaning: "বলা হয়", synonym: "ذُكِرَ / حُكِيَ", antonym: "سُكِتَ", sigah: "واحد مذكر غائب", bahas: "فعل ماضٍ مجهول", bab: "نَصَرَ يَنْصُرُ", maddah: "ق و ل", jins: "أجوف واوي" },
+      "لَهُمْ": { word: "لَهُمْ", meaning: "তাদেরকে / তাদের উদ্দেশ্যে", synonym: "إِلَيْهِمْ", antonym: "عَنْهُمْ", sigah: "حرف جر + ضمير جمع", bahas: "حرف ও ضمير", bab: "প্রযোজ্য নয়", maddah: "-", jins: "حرف" },
+      "لَا_নিষেধ": { word: "لَا (নিষেধ)", meaning: "না (নিষেধসূচক)", synonym: "إِيَّاكُمْ", antonym: "نَعَمْ", sigah: "حرف نهي وجزم", bahas: "حرف عامل", bab: "প্রযোজ্য নয়", maddah: "-", jins: "حرف" },
+      "تُفْسِدُوا": { word: "تُفْسِدُوا", meaning: "তোমরা ফাসাদ/বিশৃঙ্খলা সৃষ্টি করো", synonym: "تُخَرِّبُوا", antonym: "تُصْلِحُوا", sigah: "جمع مذكر حاضر", bahas: "فعل مضارع مجزوم (نهي)", bab: "إِفْعَال (أَفْسَدَ)", maddah: "ف س د", jins: "صحيح سالم" },
+      "الْأَرْضِ": { word: "الْأَرْضِ", meaning: "পৃথিবীতে / জমিনে", synonym: "الدُّنْيَا / الْبَسِيطَةِ", antonym: "السَّمَاءِ", sigah: "واحد مؤنث سماعي", bahas: "اسم جامد (معرفة)", bab: "প্রযোজ্য নয়", maddah: "أ ر ض", jins: "مهموز الفاء" },
+      "قَالُوا": { word: "قَالُوا", meaning: "তারা বলে", synonym: "تَكَلَّمُوا / نَطَقُوا", antonym: "صَمَتُوا / سَكَتُوا", sigah: "جمع مذكر غائب", bahas: "فعل ماضٍ مثبت معروف", bab: "نَصَرَ يَنْصُرُ", maddah: "ق و ل", jins: "أجوف واوي" },
+      "إِنَّمَا": { word: "إِنَّمَا", meaning: "নিশ্চয়ই কেবল / শুধুমাত্র", synonym: "فَقَطْ / حَسْبُ", antonym: "-", sigah: "حرف حصر (كافة ومكفوفة)", bahas: "حرف", bab: "প্রযোজ্য নয়", maddah: "-", jins: "حرف" },
+      "نَحْنُ": { word: "نَحْنُ", meaning: "আমরা", synonym: "إِنَّا", antonym: "هُمْ / أَنْتُمْ", sigah: "جمع متكلم", bahas: "ضمير منفصل مرفوع", bab: "প্রযোজ্য নয়", maddah: "-", jins: "اسم مبني" },
+      "مُصْلِحُونَ": { word: "مُصْلِحُونَ", meaning: "সংশোধনকারীগণ", synonym: "مُعَمِّرُونَ", antonym: "مُفْسِدُونَ", sigah: "جمع مذكر سالم", bahas: "اسم فاعل (مشتق)", bab: "إِفْعَال (أَصْلَحَ)", maddah: "ص ل ح", jins: "صحيح سالم" },
+      "أَلَا": { word: "أَلَا", meaning: "সাবধান! শুনে রাখো!", synonym: "تَنَبَّهُوا / هَا", antonym: "-", sigah: "حرف استفتاح وتنبيه", bahas: "حرف غير عامل", bab: "প্রযোজ্য নয়", maddah: "-", jins: "حرف" },
+      "إِنَّهُمْ": { word: "إِنَّهُمْ", meaning: "নিশ্চয়ই তারা", synonym: "حَقًّا هُمْ", antonym: "-", sigah: "حرف مشبه بالفعل + ضمير", bahas: "حرف ও اسم", bab: "প্রযোজ্য নয়", maddah: "-", jins: "حرف" },
+      "هُمُ": { word: "هُمُ", meaning: "তারাই (জোর প্রদান)", synonym: "أُولَٰئِكَ", antonym: "نَحْنُ", sigah: "جمع مذكر غائب", bahas: "ضمير فصل / منفصل", bab: "প্রযোজ্য নয়", maddah: "-", jins: "اسم مبني" },
+      "الْمُفْسِدُونَ": { word: "الْمُفْسِدُونَ", meaning: "ফাসাদ বা বিপর্যয় সৃষ্টিকারীরা", synonym: "الْمُخَرِّبُونَ", antonym: "الْمُصْلِحُونَ", sigah: "جمع مذكر سالم", bahas: "اسم فاعل (مشتق)", bab: "إِفْعَال (أَفْسَدَ)", maddah: "ف س د", jins: "صحيح سالم" },
+      "وَلَٰكِن": { word: "وَلَٰكِن", meaning: "কিন্তু / তথাপি", synonym: "بَيْدَ أَنَّ / غَيْرَ أَنَّ", antonym: "-", sigah: "حرف استدراك", bahas: "حرف مخففة", bab: "প্রযোজ্য নয়", maddah: "-", jins: "حرف" },
+      "لَّا_নেতিবাচক": { word: "لَّا (নেতিবাচক)", meaning: "না (নেতিবাচক)", synonym: "مَا / لَيْسَ", antonym: "نَعَمْ", sigah: "حرف نفي", bahas: "حرف غير عامل", bab: "প্রযোজ্য নয়", maddah: "-", jins: "حرف" },
+      "يَشْعُرُونَ": { word: "يَشْعُرُونَ", meaning: "তারা উপলব্ধি করে / বুঝতে পারে", synonym: "يُدْرِكُونَ / يَعْلَمُونَ", antonym: "يَجْهَلُونَ / يَغْفُلُونَ", sigah: "جمع مذكر غائب", bahas: "فعل مضارع مثبت معروف", bab: "نَصَرَ يَنْصُرُ", maddah: "ش ع ر", jins: "صحيح سالم" },
+      "آمِنُوا": { word: "آمِنُوا", meaning: "তোমরা ঈমান আনো / বিশ্বাস স্থাপন করো", synonym: "صَدِّقُوا", antonym: "اكْفُرُوا", sigah: "جمع مذكر حاضر", bahas: "فعل أمر حاضر معروف", bab: "إِفْعَال (آمَنَ)", maddah: "أ م ن", jins: "مهموز الفاء" },
+      "كَمَا": { word: "كَمَا", meaning: "যেমন / যেরূপ", synonym: "مِثْلَ مَا", antonym: "خِلَافَ مَا", sigah: "حرف تشبيه + ما مصدرية", bahas: "حرف", bab: "প্রযোজ্য নয়", maddah: "-", jins: "حرف" },
+      "آمَنَ": { word: "آمَنَ", meaning: "ঈমান এনেছে", synonym: "صَدَّقَ / أَيْقَنَ", antonym: "كَفَرَ / جَحَدَ", sigah: "واحد مذكر غائب", bahas: "فعل ماضٍ مثبت معروف", bab: "إِفْعَال (آمَنَ)", maddah: "أ م ن", jins: "مهموز الفاء" },
+      "النَّاسُ": { word: "النَّاسُ", meaning: "মানুষেরা (সাহাবায়ে কিরাম)", synonym: "الْبَشَرُ / الْخَلْقُ", antonym: "الْجِنُّ", sigah: "اسم جمع", bahas: "اسم جامد (معرفة)", bab: "প্রযোজ্য নয়", maddah: "أ ن س / ن و س", jins: "أجوف واوي" },
+      "أَنُؤْمِنُ": { word: "أَنُؤْمِنُ", meaning: "আমরা কি ঈমান আনব?", synonym: "أَنُصَدِّقُ", antonym: "أَنَكْفُرُ", sigah: "جمع متكلم", bahas: "همزة استفهام + فعل مضارع", bab: "إِفْعَال (آمَنَ)", maddah: "أ م ن", jins: "مهموز الفاء" },
+      "السُّفَهَاءُ": { word: "السُّفَهَاءُ", meaning: "নির্বোধেরা / অজ্ঞরা", synonym: "الْجُهَلَاءُ / الْحَمْقَى", antonym: "الْعُقَلَاءُ / الْحُكَمَاءُ", sigah: "جمع مكسر (فُعَلَاء)", bahas: "صفة مشبهة (مشتق)", bab: "كَرُمَ يَكْرُمُ", maddah: "س ف هـ", jins: "صحيح سالم" },
+      "يَعْلَمُونَ": { word: "يَعْلَمُونَ", meaning: "তারা জানে", synonym: "يَعْرِفُونَ / يَدْرُونَ", antonym: "يَجْهَلُونَ", sigah: "جمع مذكر غائب", bahas: "فعل مضارع مثبت معروف", bab: "سَمِعَ يَسْمَعُ", maddah: "ع ل م", jins: "صحيح سالم" },
+      "لَقُوا": { word: "لَقُوا", meaning: "তারা সাক্ষাৎ করে", synonym: "قَابَلُوا / وَاجَهُوا", antonym: "فَارَقُوا / هَجَرُوا", sigah: "جمع مذكر غائب", bahas: "فعل ماضٍ مثبت معروف", bab: "سَمِعَ يَسْمَعُ", maddah: "ل ق ي", jins: "ناقص يائي" },
+      "الَّذِينَ": { word: "الَّذِينَ", meaning: "যারা", synonym: "مَنْ", antonym: "-", sigah: "جمع مذكر", bahas: "اسم موصول (مبني)", bab: "প্রযোজ্য নয়", maddah: "-", jins: "اسم مبني" },
+      "آمَنُوا_মাযী": { word: "آمَنُوا (মাযী)", meaning: "তারা ঈমান এনেছে", synonym: "صَدَّقُوا", antonym: "كَفَرُوا", sigah: "جمع مذكر غائب", bahas: "فعل ماضٍ مثبت معروف", bab: "إِفْعَال (آمَنَ)", maddah: "أ م ن", jins: "مهموز الفاء" },
+      "آمَنَّا": { word: "آمَنَّا", meaning: "আমরা ঈমান এনেছি", synonym: "صَدَّقْنَا", antonym: "كَفَرْنَا", sigah: "جمع متكلم", bahas: "فعل ماضٍ مثبت معروف", bab: "إِفْعَال (آمَنَ)", maddah: "أ م ن", jins: "مهموز الفاء" },
+      "خَلَوْا": { word: "خَلَوْا", meaning: "তারা একান্তে মিলিত হয়", synonym: "انْفَرَدُوا / اجْتَمَعُوا", antonym: "تَفَرَّقُوا", sigah: "جمع مذكر غائب", bahas: "فعل ماضٍ مثبت معروف", bab: "نَصَرَ يَنْصُرُ", maddah: "خ ل و", jins: "ناقص واوي" },
+      "إِلَىٰ": { word: "إِلَىٰ", meaning: "দিকে / নিকটে", synonym: "نَحْوَ / عِنْدَ", antonym: "عَنْ / مِنْ", sigah: "حرف جر", bahas: "حرف مبني", bab: "প্রযোজ্য নয়", maddah: "-", jins: "حرف" },
+      "شَيَاطِينِهِمْ": { word: "شَيَاطِينِهِمْ", meaning: "তাদের শয়তানদের (দুষ্ট নেতাদের)", synonym: "رُؤَسَائِهِمْ / أَشْرَارِهِمْ", antonym: "مَلَائِكَتِهِمْ / صَالِحِيهِمْ", sigah: "جمع مكسر + ضمير", bahas: "اسم جامد / مشتق", bab: "نَصَرَ (شَطَنَ)", maddah: "ش ط ن", jins: "صحيح سالم" },
+      "إِنَّا": { word: "إِنَّا", meaning: "নিশ্চয়ই আমরা", synonym: "حَقًّا نَحْنُ", antonym: "-", sigah: "حرف مشبه بالفعل + ضمير", bahas: "حرف ও اسم", bab: "প্রযোজ্য নয়", maddah: "-", jins: "حرف" },
+      "مَعَكُمْ": { word: "مَعَكُمْ", meaning: "তোমাদের সাথেই", synonym: "بِجَانِبِكُمْ", antonym: "ضِدَّكُمْ", sigah: "ظرف مكان + ضمير", bahas: "اسم منصوب", bab: "প্রযোজ্য নয়", maddah: "م ع و", jins: "ناقص واوي" },
+      "مُسْتَهْزِئُونَ": { word: "مُسْتَهْزِئُونَ", meaning: "উপহাসকারী / ঠাট্টাকারী", synonym: "سَاخِرُونَ / لَاعِبُونَ", antonym: "جَادُّونَ", sigah: "جمع مذكر سالم", bahas: "اسم فاعل (مشتق)", bab: "اِسْتِفْعَال (اِسْتَهْزَأَ)", maddah: "هـ ز أ", jins: "مهموز اللام" },
+      "يَسْتَهْزِئُ": { word: "يَسْتَهْزِئُ", meaning: "তিনি উপহাস (এর প্রতিফল দান) করেন", synonym: "يُجَازِي بِاسْتِهْزَائِهِمْ", antonym: "يُكْرِمُ", sigah: "واحد مذكر غائب", bahas: "فعل مضارع مثبت معروف", bab: "اِسْتِفْعَال", maddah: "هـ ز أ", jins: "مهموز اللام" },
+      "بِهِمْ": { word: "بِهِمْ", meaning: "তাদের সাথে", synonym: "عَلَيْهِمْ", antonym: "لَهُمْ", sigah: "حرف جر + ضمير جمع", bahas: "حرف ও ضمير", bab: "প্রযোজ্য নয়", maddah: "-", jins: "حرف" },
+      "وَيَمُدُّهُمْ": { word: "وَيَمُدُّهُمْ", meaning: "এবং তিনি তাদের অবকাশ দেন / বাড়িয়ে দেন", synonym: "يُمْهِلُهُمْ / يَتْرُكُهُمْ", antonym: "يُعَاجِلُهُمْ / يَقْبِضُهُمْ", sigah: "واحد مذكر غائب + ضمير", bahas: "فعل مضارع مثبت معروف", bab: "نَصَرَ يَنْصُرُ", maddah: "م د د", jins: "مضاعف ثلاثي" },
+      "طُغْيَانِهِمْ": { word: "طُغْيَانِهِمْ", meaning: "তাদের অবাধ্যতা ও সীমালঙ্ঘনে", synonym: "ضَلَالِهِمْ / تَمَرُّدِهِمْ", antonym: "هُدَاهُمْ / طَاعَتِهِمْ", sigah: "مصدر + ضمير متصل", bahas: "مصدر", bab: "فَتَحَ / سَمِعَ", maddah: "ط غ ي", jins: "ناقص يائي" },
+      "يَعْمَهُونَ": { word: "يَعْمَهُونَ", meaning: "তারা বিভ্রান্ত হয়ে ঘুরে বেড়ায়", synonym: "يَتَحَيَّرُونَ / يَتَرَدَّدُونَ", antonym: "يَهْتَدُونَ", sigah: "جمع مذكر غائب", bahas: "فعل مضارع مثبت معروف", bab: "فَتَحَ يَفْتَحُ", maddah: "ع م هـ", jins: "صحيح سالم" }
+    };
+
+    // ==================== AYAHS DATA (SLIDE 6) ====================
+    const AYAHS = [
+      {
+        num: 10,
+        arNum: "﴿١٠﴾",
+        primaryUrl: "https://everyayah.com/data/Alafasy_128kbps/002010.mp3",
+        backupUrl: "https://cdn.islamic.network/quran/audio/128/ar.alafasy/17.mp3",
+        translation: "তাদের অন্তরে রয়েছে ব্যাধি, অতঃপর আল্লাহ তাদের ব্যাধি আরও বাড়িয়ে দিয়েছেন। আর তাদের জন্য রয়েছে যন্ত্রণাদায়ক শাস্তি, কারণ তারা মিথ্যা বলত।",
+        tokens: [
+          { text: "فِي", key: "فِي" },
+          { text: "قُلُوبِهِم", key: "قُلُوبِهِمْ" },
+          { text: "مَّرَضٌ", key: "مَرَضٌ" },
+          { text: "فَزَادَهُمُ", key: "فَزَادَهُمُ" },
+          { text: "اللَّهُ", key: "اللَّهُ" },
+          { text: "مَرَضًا", key: "مَرَضًا" },
+          { text: "ۖ", key: null },
+          { text: "وَلَهُمْ", key: "وَلَهُمْ" },
+          { text: "عَذَابٌ", key: "عَذَابٌ" },
+          { text: "أَلِيمٌ", key: "أَلِيمٌ" },
+          { text: "بِمَا", key: "بِمَا" },
+          { text: "كَانُوا", key: "كَانُوا" },
+          { text: "يَكْذِبُونَ", key: "يَكْذِبُونَ" }
+        ]
+      },
+      {
+        num: 11,
+        arNum: "﴿١١﴾",
+        primaryUrl: "https://everyayah.com/data/Alafasy_128kbps/002011.mp3",
+        backupUrl: "https://cdn.islamic.network/quran/audio/128/ar.alafasy/18.mp3",
+        translation: "আর যখন তাদেরকে বলা হয়, “তোমরা পৃথিবীতে ফাসাদ (বিশৃঙ্খলা) সৃষ্টি করো না”, তারা বলে, “আমরাই তো কেবল সংশোধনকারী।”",
+        tokens: [
+          { text: "وَإِذَا", key: "وَإِذَا" },
+          { text: "قِيلَ", key: "قِيلَ" },
+          { text: "لَهُمْ", key: "لَهُمْ" },
+          { text: "لَا", key: "لَا_নিষেধ" },
+          { text: "تُفْسِدُوا", key: "تُفْسِدُوا" },
+          { text: "فِي", key: "فِي" },
+          { text: "الْأَرْضِ", key: "الْأَرْضِ" },
+          { text: "قَالُوا", key: "قَالُوا" },
+          { text: "إِنَّمَا", key: "إِنَّمَا" },
+          { text: "نَحْنُ", key: "نَحْنُ" },
+          { text: "مُصْلِحُونَ", key: "مُصْلِحُونَ" }
+        ]
+      },
+      {
+        num: 12,
+        arNum: "﴿١٢﴾",
+        primaryUrl: "https://everyayah.com/data/Alafasy_128kbps/002012.mp3",
+        backupUrl: "https://cdn.islamic.network/quran/audio/128/ar.alafasy/19.mp3",
+        translation: "সাবধান! নিশ্চয়ই তারাই ফাসাদ সৃষ্টিকারী, কিন্তু তারা তা উপলব্ধি করে না।",
+        tokens: [
+          { text: "أَلَا", key: "أَلَا" },
+          { text: "إِنَّهُمْ", key: "إِنَّهُمْ" },
+          { text: "هُمُ", key: "هُمُ" },
+          { text: "الْمُفْسِدُونَ", key: "الْمُفْسِدُونَ" },
+          { text: "وَلَٰكِن", key: "وَلَٰكِن" },
+          { text: "لَّا", key: "لَّا_নেতিবাচক" },
+          { text: "يَشْعُرُونَ", key: "يَشْعُرُونَ" }
+        ]
+      },
+      {
+        num: 13,
+        arNum: "﴿١٣﴾",
+        primaryUrl: "https://everyayah.com/data/Alafasy_128kbps/002013.mp3",
+        backupUrl: "https://cdn.islamic.network/quran/audio/128/ar.alafasy/20.mp3",
+        translation: "আর যখন তাদেরকে বলা হয়, “তোমরা ঈমান আনো যেমন অন্য লোকেরা ঈমান এনেছে”, তারা বলে, “আমরা কি ঈমান আনব যেমন নির্বোধেরা ঈমান এনেছে?” সাবধান! নিশ্চয়ই তারাই নির্বোধ, কিন্তু তারা জানে না।",
+        tokens: [
+          { text: "وَإِذَا", key: "وَإِذَا" },
+          { text: "قِيلَ", key: "قِيلَ" },
+          { text: "لَهُمْ", key: "لَهُمْ" },
+          { text: "آمِنُوا", key: "آمِنُوا" },
+          { text: "كَمَا", key: "كَمَا" },
+          { text: "آمَنَ", key: "آمَنَ" },
+          { text: "النَّاسُ", key: "النَّاسُ" },
+          { text: "قَالُوا", key: "قَالُوا" },
+          { text: "أَنُؤْمِنُ", key: "أَنُؤْمِنُ" },
+          { text: "كَمَا", key: "كَمَا" },
+          { text: "آمَنَ", key: "آمَنَ" },
+          { text: "السُّفَهَاءُ", key: "السُّفَهَاءُ" },
+          { text: "ۗ", key: null },
+          { text: "أَلَا", key: "أَلَا" },
+          { text: "إِنَّهُمْ", key: "إِنَّهُمْ" },
+          { text: "هُمُ", key: "هُمُ" },
+          { text: "السُّفَهَاءُ", key: "السُّفَهَاءُ" },
+          { text: "وَلَٰكِن", key: "وَلَٰكِن" },
+          { text: "لَّا", key: "لَّا_নেতিবাচক" },
+          { text: "يَعْلَمُونَ", key: "يَعْلَمُونَ" }
+        ]
+      },
+      {
+        num: 14,
+        arNum: "﴿١٤﴾",
+        primaryUrl: "https://everyayah.com/data/Alafasy_128kbps/002014.mp3",
+        backupUrl: "https://cdn.islamic.network/quran/audio/128/ar.alafasy/21.mp3",
+        translation: "আর যখন তারা মুমিনদের সাথে সাক্ষাৎ করে তখন বলে, “আমরা ঈমান এনেছি”; আবার যখন তারা একান্তে তাদের শয়তানদের (নেতাদের) সাথে মিলিত হয় তখন বলে, “নিশ্চয়ই আমরা তোমাদের সাথেই আছি, আমরা তো কেবল (তাদের সাথে) উপহাস করছি।”",
+        tokens: [
+          { text: "وَإِذَا", key: "وَإِذَا" },
+          { text: "لَقُوا", key: "لَقُوا" },
+          { text: "الَّذِينَ", key: "الَّذِينَ" },
+          { text: "آمَنُوا", key: "آمَنُوا_মাযী" },
+          { text: "قَالُوا", key: "قَالُوا" },
+          { text: "آمَنَّا", key: "آمَنَّا" },
+          { text: "وَإِذَا", key: "وَإِذَا" },
+          { text: "خَلَوْا", key: "خَلَوْا" },
+          { text: "إِلَىٰ", key: "إِلَىٰ" },
+          { text: "شَيَاطِينِهِمْ", key: "شَيَاطِينِهِمْ" },
+          { text: "قَالُوا", key: "قَالُوا" },
+          { text: "إِنَّا", key: "إِنَّا" },
+          { text: "مَعَكُمْ", key: "مَعَكُمْ" },
+          { text: "إِنَّمَا", key: "إِنَّمَا" },
+          { text: "نَحْنُ", key: "نَحْنُ" },
+          { text: "مُسْتَهْزِئُونَ", key: "مُسْتَهْزِئُونَ" }
+        ]
+      },
+      {
+        num: 15,
+        arNum: "﴿١٥﴾",
+        primaryUrl: "https://everyayah.com/data/Alafasy_128kbps/002015.mp3",
+        backupUrl: "https://cdn.islamic.network/quran/audio/128/ar.alafasy/22.mp3",
+        translation: "আল্লাহ তাদের সাথে উপহাস (এর প্রতিফল দান) করেন এবং তাদেরকে তাদের অবাধ্যতায় বিভ্রান্ত হয়ে ঘুরে বেড়ানোর অবকাশ দেন।",
+        tokens: [
+          { text: "اللَّهُ", key: "اللَّهُ" },
+          { text: "يَسْتَهْزِئُ", key: "يَسْتَهْزِئُ" },
+          { text: "بِهِمْ", key: "بِهِمْ" },
+          { text: "وَيَمُدُّهُمْ", key: "وَيَمُدُّهُمْ" },
+          { text: "فِي", key: "فِي" },
+          { text: "طُغْيَانِهِمْ", key: "طُغْيَانِهِمْ" },
+          { text: "يَعْمَهُونَ", key: "يَعْمَهُونَ" }
+        ]
+      }
+    ];
+
+    // ==================== FLASHCARDS DATA (SLIDE 7) ====================
+    const FLASHCARDS = [
+      { ar: "مَرَضٌ", bn: "ব্যাধি, রোগ (সন্দেহ ও কপটতা)", maddah: "م ر ض" },
+      { ar: "فَزَادَهُمُ", bn: "অতঃপর তিনি তাদের বাড়িয়ে দিলেন", maddah: "ز ي د" },
+      { ar: "عَذَابٌ أَلِيمٌ", bn: "যন্ত্রণাদায়ক শাস্তি", maddah: "ع ذ ب / أ ل م" },
+      { ar: "لَا تُفْسِدُوا", bn: "তোমরা বিশৃঙ্খলা/ফাসাদ সৃষ্টি করো না", maddah: "ف س د" },
+      { ar: "مُصْلِحُونَ", bn: "সংশোধনকারীগণ", maddah: "ص ل ح" },
+      { ar: "لَا يَشْعُرُونَ", bn: "তারা উপলব্ধি করে না", maddah: "ش ع ر" },
+      { ar: "السُّفَهَاءُ", bn: "নির্বোধেরা, অজ্ঞরা", maddah: "س ف هـ" },
+      { ar: "خَلَوْا إِلَىٰ", bn: "তারা একান্তে মিলিত হয়", maddah: "خ ل و" },
+      { ar: "مُسْتَهْزِئُونَ", bn: "উপহাসকারী, ঠাট্টাকারী", maddah: "هـ ز أ" },
+      { ar: "طُغْيَانِهِمْ", bn: "তাদের অবাধ্যতা ও সীমালঙ্ঘন", maddah: "ط غ ي" },
+      { ar: "يَعْمَهُونَ", bn: "তারা বিভ্রান্ত হয়ে ঘুরে বেড়ায়", maddah: "ع م هـ" },
+      { ar: "وَيَمُدُّهُمْ", bn: "এবং তিনি তাদের অবকাশ দেন", maddah: "م د د" }
+    ];
+
+    // ==================== TAHQIQ DATA (SLIDE 9) ====================
+    const TAHQIQ_WORDS = [
+      { word: "فَزَادَهُمُ", meaning: "অতঃপর তিনি তাদের বাড়িয়ে দিলেন", sigah: "واحد مذكر غائب", bahas: "فعل ماضٍ مثبت معروف", bab: "ضَرَبَ يَضْرِبُ", maddah: "ز ي د", jins: "أجوف يائي" },
+      { word: "يَكْذِبُونَ", meaning: "তারা মিথ্যা বলত", sigah: "جمع مذكر غائب", bahas: "فعل مضارع مثبت معروف", bab: "ضَرَبَ يَضْرِبُ", maddah: "ك ذ ب", jins: "صحيح سالم" },
+      { word: "تُفْسِدُوا", meaning: "তোমরা ফাসাদ/বিশৃঙ্খলা সৃষ্টি করো", sigah: "جمع مذكر حاضر", bahas: "فعل مضارع مجزوم (نهي)", bab: "إِفْعَال (أَفْسَدَ)", maddah: "ف س د", jins: "صحيح سالم" },
+      { word: "مُصْلِحُونَ", meaning: "সংশোধনকারীগণ", sigah: "جمع مذكر سالم", bahas: "اسم فاعل (مشتق)", bab: "إِفْعَال (أَصْلَحَ)", maddah: "ص ل ح", jins: "صحيح سالم" },
+      { word: "يَشْعُرُونَ", meaning: "তারা উপলব্ধি করে / বুঝতে পারে", sigah: "جمع مذكر غائب", bahas: "فعل مضارع مثبت معروف", bab: "نَصَرَ يَنْصُرُ", maddah: "ش ع ر", jins: "صحيح سالم" },
+      { word: "آمِنُوا", meaning: "তোমরা ঈমান আনো / বিশ্বাস স্থাপন করো", sigah: "جمع مذكر حاضر", bahas: "فعل أمر حاضر معروف", bab: "إِفْعَال (آمَنَ)", maddah: "أ م ن", jins: "مهموز الفاء" },
+      { word: "السُّفَهَاءُ", meaning: "নির্বোধেরা / অজ্ঞরা", sigah: "جمع مكسر (فُعَلَاء)", bahas: "صفة مشبهة (مشتق)", bab: "كَرُمَ يَكْرُمُ", maddah: "س ف هـ", jins: "صحيح سالم" },
+      { word: "يَسْتَهْزِئُ", meaning: "তিনি উপহাস (এর প্রতিফল দান) করেন", sigah: "واحد مذكر غائب", bahas: "فعل مضارع مثبت معروف", bab: "اِسْتِفْعَال", maddah: "هـ ز أ", jins: "مهموز اللام" },
+      { word: "يَعْمَهُونَ", meaning: "তারা বিভ্রান্ত হয়ে ঘুরে বেড়ায়", sigah: "جمع مذكر غائب", bahas: "فعل مضارع مثبت معروف", bab: "فَتَحَ يَفْتَحُ", maddah: "ع م هـ", jins: "صحيح سالم" }
+    ];
+
+    // ==================== QUIZ DATA (SLIDE 12) ====================
+    const QUIZ_QUESTIONS = [
+      {
+        q: "সূরা আল-বাকারার ১০ম আয়াত অনুযায়ী মুনাফিকদের অন্তরে কী রয়েছে?",
+        options: ["অহংকার ও হিংসা", "ব্যাধি (সন্দেহ ও কপটতা)", "ভয় ও আতঙ্ক", "দুনিয়ার মোহ"],
+        answer: 1,
+        explanation: "আয়াত ১০-এ বলা হয়েছে: \"فِي قُلُوبِهِم مَّرَضٌ\" অর্থাৎ তাদের অন্তরে রয়েছে (সন্দেহ ও কপটতার) ব্যাধি।"
+      },
+      {
+        q: "মুনাফিকদের যখন পৃথিবীতে ফাসাদ সৃষ্টি করতে নিষেধ করা হয়, তখন তারা কী দাবি করে?",
+        options: ["আমরা কিছুই জানি না", "আমরা তো কেবল সংশোধনকারী", "আমরা নিরপেক্ষ আছি", "আমরা বাধ্য হয়েছি"],
+        answer: 1,
+        explanation: "আয়াত ১১ অনুযায়ী তারা বলে: \"إِنَّمَا نَحْنُ مُصْلِحُونَ\" অর্থাৎ আমরাই তো কেবল সংশোধনকারী।"
+      },
+      {
+        q: "মুনাফিকরা কাদেরকে “নির্বোধ” (السُّفَهَاءُ) বলে উপহাস করত?",
+        options: ["ইহুদিদেরকে", "মক্কার কাফিরদেরকে", "ঈমানদার সাহাবায়ে কিরামকে", "রোমানদেরকে"],
+        answer: 2,
+        explanation: "আয়াত ১৩-এ মুনাফিকরা ঈমানদার সাহাবীদের প্রতি ইঙ্গিত করে বলেছিল: \"أَنُؤْمِنُ كَمَا آمَنَ السُّفَهَاءُ\"।"
+      },
+      {
+        q: "আয়াতে উল্লিখিত “شَيَاطِينِهِمْ” (তাদের শয়তানগণ) বলতে কাদের বোঝানো হয়েছে?",
+        options: ["জিন শয়তানদের", "তাদের কাফির ও মুনাফিক নেতাদের", "ফেরেশতাদের", "সাধারণ মানুষদের"],
+        answer: 1,
+        explanation: "তাফসীরকারকদের মতে এখানে \"شَيَاطِينِهِمْ\" বলতে মুনাফিকদের দুষ্ট নেতা ও ইয়াহুদি সরদারদের বোঝানো হয়েছে।"
+      },
+      {
+        q: "“يَعْمَهُونَ” শব্দের সঠিক বাংলা অর্থ কী?",
+        options: ["তারা ক্ষমা প্রার্থনা করে", "তারা বিভ্রান্ত হয়ে ঘুরে বেড়ায়", "তারা গোপনে ষড়যন্ত্র করে", "তারা অনুতপ্ত হয়"],
+        answer: 1,
+        explanation: "আয়াত ১৫-এর \"يَعْمَهُونَ\" অর্থ হলো তারা দিশেহারা ও বিভ্রান্ত হয়ে ঘুরে বেড়ায়।"
+      }
+    ];
+
+    // ==================== SLIDE NAVIGATION ====================
+    const slides = Array.from(document.querySelectorAll('.slide'));
+    let currentSlide = 0;
+
+    const slideCounterEl = document.getElementById('slideCounter');
+    const currentSlideTitleEl = document.getElementById('currentSlideTitle');
+    const progressBarEl = document.getElementById('progressBar');
+    const prevSlideBtn = document.getElementById('prevSlideBtn');
+    const nextSlideBtn = document.getElementById('nextSlideBtn');
+    const slideMenuOverlay = document.getElementById('slideMenuOverlay');
+    const slideMenuList = document.getElementById('slideMenuList');
+
+    function buildSlideMenu() {
+      slideMenuList.innerHTML = '';
+      slides.forEach((slide, idx) => {
+        const title = slide.dataset.title || `স্লাইড ${toBn(idx + 1)}`;
+        const btn = document.createElement('button');
+        btn.className = `w-full text-left px-3.5 py-2.5 rounded-lg text-sm flex items-center gap-3 transition-colors ${
+          idx === currentSlide ? 'bg-emerald-50 text-[#065F46] font-bold' : 'text-slate-700 hover:bg-slate-50 font-medium'
+        }`;
+        btn.innerHTML = `<span class="text-xs font-bold w-6 text-slate-400">${toBn(String(idx + 1).padStart(2, '0'))}</span><span>${title}</span>`;
+        btn.onclick = () => {
+          goToSlide(idx);
+          slideMenuOverlay.classList.add('hidden');
+        };
+        slideMenuList.appendChild(btn);
+      });
+    }
+
+    function goToSlide(index) {
+      if (index < 0 || index >= slides.length) return;
+      slides[currentSlide].classList.remove('active');
+      currentSlide = index;
+      slides[currentSlide].classList.add('active');
+      slides[currentSlide].scrollTop = 0;
+
+      const numStr = toBn(String(currentSlide + 1).padStart(2, '0'));
+      const totalStr = toBn(String(slides.length).padStart(2, '0'));
+      slideCounterEl.textContent = `${numStr} / ${totalStr}`;
+      currentSlideTitleEl.textContent = slides[currentSlide].dataset.title || '';
+      progressBarEl.style.width = `${((currentSlide + 1) / slides.length) * 100}%`;
+
+      prevSlideBtn.disabled = currentSlide === 0;
+      nextSlideBtn.disabled = currentSlide === slides.length - 1;
+      buildSlideMenu();
+    }
+
+    prevSlideBtn.addEventListener('click', () => goToSlide(currentSlide - 1));
+    nextSlideBtn.addEventListener('click', () => goToSlide(currentSlide + 1));
+
+    document.addEventListener('keydown', (e) => {
+      // Ignore if modal is open and Escape is pressed
+      if (e.key === 'Escape') {
+        closeWordModal();
+        slideMenuOverlay.classList.add('hidden');
+        return;
+      }
+      if (!document.getElementById('wordModal').classList.contains('hidden')) return;
+      if (e.key === 'ArrowRight') goToSlide(currentSlide + 1);
+      if (e.key === 'ArrowLeft') goToSlide(currentSlide - 1);
+    });
+
+    // Menu Toggle
+    document.getElementById('menuToggleBtn').addEventListener('click', () => {
+      slideMenuOverlay.classList.remove('hidden');
+    });
+    document.getElementById('closeMenuBtn').addEventListener('click', () => {
+      slideMenuOverlay.classList.add('hidden');
+    });
+    slideMenuOverlay.addEventListener('click', (e) => {
+      if (e.target === slideMenuOverlay) slideMenuOverlay.classList.add('hidden');
+    });
+
+    // Fullscreen Toggle
+    const fullscreenBtn = document.getElementById('fullscreenBtn');
+    const fsIconEnter = document.getElementById('fsIconEnter');
+    const fsIconExit = document.getElementById('fsIconExit');
+    const fsLabel = document.getElementById('fsLabel');
+
+    fullscreenBtn.addEventListener('click', () => {
+      if (!document.fullscreenElement) {
+        document.documentElement.requestFullscreen().catch(() => {});
+      } else {
+        document.exitFullscreen().catch(() => {});
+      }
+    });
+
+    document.addEventListener('fullscreenchange', () => {
+      const isFs = Boolean(document.fullscreenElement);
+      fsIconEnter.classList.toggle('hidden', isFs);
+      fsIconExit.classList.toggle('hidden', !isFs);
+      fsLabel.textContent = isFs ? 'প্রস্থান' : 'ফুল-স্ক্রিন';
+    });
+
+    // ==================== SLIDE 3: PRIOR KNOWLEDGE CARDS ====================
+    function togglePriorCard(cardEl) {
+      const ans = cardEl.querySelector('.prior-answer');
+      const hint = cardEl.querySelector('.toggle-hint');
+      const isHidden = ans.classList.contains('hidden');
+      ans.classList.toggle('hidden', !isHidden);
+      hint.textContent = isHidden ? 'লুকান' : 'ক্লিক করুন';
+    }
+
+    let allPriorShown = false;
+    document.getElementById('toggleAllPriorBtn').addEventListener('click', () => {
+      allPriorShown = !allPriorShown;
+      document.querySelectorAll('.prior-card').forEach(card => {
+        card.querySelector('.prior-answer').classList.toggle('hidden', !allPriorShown);
+        card.querySelector('.toggle-hint').textContent = allPriorShown ? 'লুকান' : 'ক্লিক করুন';
+      });
+    });
+
+    // ==================== SLIDE 6: AUDIO & CLICKABLE WORDS ====================
+    const ayahListContainer = document.getElementById('ayahListContainer');
+    let currentAudio = new Audio();
+    let playingIndex = -1;
+    let isSequentialMode = false;
+    let currentSpeed = 1;
+    let showTranslations = true;
+
+    function renderAyahs() {
+      ayahListContainer.innerHTML = '';
+      AYAHS.forEach((ayah, idx) => {
+        const card = document.createElement('div');
+        card.id = `ayah-card-${idx}`;
+        card.className = 'bg-white border border-slate-200 rounded-2xl p-5 sm:p-6 shadow-sm transition-all';
+
+        const tokensHtml = ayah.tokens.map(tok => {
+          if (!tok.key) {
+            return `<span class="mx-1 text-[#B45309]">${tok.text}</span>`;
+          }
+          return `<span class="word-token" onclick="openWordModal('${tok.key}')">${tok.text}</span>`;
+        }).join(' ');
+
+        card.innerHTML = `
+          <div class="flex items-center justify-between gap-3 mb-3">
+            <span class="text-xs font-bold px-2.5 py-1 rounded-full bg-stone-100 text-slate-600">আয়াত ${toBn(ayah.num)}</span>
+            <button id="play-btn-${idx}" onclick="togglePlayAyah(${idx})" class="flex items-center gap-1.5 px-3.5 py-1.5 rounded-lg border border-emerald-200 bg-emerald-50 hover:bg-emerald-100 text-[#065F46] text-xs font-semibold transition-colors">
+              <svg class="w-3.5 h-3.5 play-icon" fill="currentColor" viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>
+              <span class="play-label">তিলাওয়াত শুনুন</span>
+            </button>
+          </div>
+          <div class="arabic-text text-2xl sm:text-3xl lg:text-4xl text-slate-900 text-right py-1">
+            ${tokensHtml}
+            <span class="text-[#B45309] mr-1">${ayah.arNum}</span>
+          </div>
+          <div class="ayah-translation mt-4 pt-3.5 border-t border-slate-100 text-slate-700 text-base sm:text-lg leading-relaxed ${showTranslations ? '' : 'hidden'}">
+            <span class="font-bold text-[#065F46] mr-1">অর্থ:</span> ${ayah.translation}
+          </div>
+        `;
+        ayahListContainer.appendChild(card);
+      });
+    }
+
+    function updateAudioUI() {
+      AYAHS.forEach((_, idx) => {
+        const card = document.getElementById(`ayah-card-${idx}`);
+        const btn = document.getElementById(`play-btn-${idx}`);
+        if (!card || !btn) return;
+        const isThisPlaying = idx === playingIndex && !currentAudio.paused;
+        card.classList.toggle('ayah-playing', isThisPlaying);
+        btn.querySelector('.play-label').textContent = isThisPlaying ? 'বিরতি দিন' : 'তিলাওয়াত শুনুন';
+        btn.querySelector('.play-icon').innerHTML = isThisPlaying
+          ? '<path d="M6 5h4v14H6zm8 0h4v14h-4z"/>'
+          : '<path d="M8 5v14l11-7z"/>';
+      });
+
+      const playAllText = document.getElementById('playAllText');
+      const playAllIcon = document.getElementById('playAllIcon');
+      if (isSequentialMode && !currentAudio.paused) {
+        playAllText.textContent = 'ধারাবাহিক তিলাওয়াত থামান';
+        playAllIcon.innerHTML = '<path d="M6 5h4v14H6zm8 0h4v14h-4z"/>';
+      } else {
+        playAllText.textContent = 'সবগুলো ধারাবাহিকভাবে শুনুন';
+        playAllIcon.innerHTML = '<path d="M8 5v14l11-7z"/>';
+      }
+    }
+
+    function playAyahIndex(idx, useBackup = false) {
+      const ayah = AYAHS[idx];
+      if (!ayah) return;
+
+      currentAudio.pause();
+      currentAudio = new Audio(useBackup ? ayah.backupUrl : ayah.primaryUrl);
+      currentAudio.playbackRate = currentSpeed;
+      playingIndex = idx;
+
+      currentAudio.onerror = () => {
+        if (!useBackup) {
+          playAyahIndex(idx, true);
+        } else {
+          playingIndex = -1;
+          isSequentialMode = false;
+          updateAudioUI();
+        }
+      };
+
+      currentAudio.onended = () => {
+        if (isSequentialMode && idx + 1 < AYAHS.length) {
+          playAyahIndex(idx + 1, false);
+        } else {
+          playingIndex = -1;
+          isSequentialMode = false;
+          updateAudioUI();
+        }
+      };
+
+      currentAudio.onplay = () => {
+        updateAudioUI();
+        const card = document.getElementById(`ayah-card-${idx}`);
+        if (card) card.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+      };
+
+      currentAudio.onpause = () => updateAudioUI();
+      currentAudio.play().catch(() => {
+        if (!useBackup) playAyahIndex(idx, true);
+      });
+    }
+
+    function togglePlayAyah(idx) {
+      isSequentialMode = false;
+      if (playingIndex === idx && !currentAudio.paused) {
+        currentAudio.pause();
+        updateAudioUI();
+      } else {
+        playAyahIndex(idx, false);
+      }
+    }
+
+    document.getElementById('playAllBtn').addEventListener('click', () => {
+      if (isSequentialMode && !currentAudio.paused) {
+        isSequentialMode = false;
+        currentAudio.pause();
+        updateAudioUI();
+      } else {
+        isSequentialMode = true;
+        playAyahIndex(0, false);
+      }
+    });
+
+    // Speed buttons
+    document.querySelectorAll('.speed-btn').forEach(btn => {
+      btn.addEventListener('click', () => {
+        currentSpeed = parseFloat(btn.dataset.speed);
+        currentAudio.playbackRate = currentSpeed;
+        document.querySelectorAll('.speed-btn').forEach(b => {
+          b.className = 'speed-btn px-2.5 py-1 text-xs font-semibold rounded-md text-slate-600 hover:text-slate-900';
+        });
+        btn.className = 'speed-btn px-2.5 py-1 text-xs font-semibold rounded-md bg-white text-[#065F46] shadow-sm';
+      });
+    });
+
+    // Translation toggle
+    document.getElementById('toggleTranslationBtn').addEventListener('click', (e) => {
+      showTranslations = !showTranslations;
+      e.target.textContent = showTranslations ? 'অনুবাদ লুকান' : 'অনুবাদ দেখুন';
+      document.querySelectorAll('.ayah-translation').forEach(el => {
+        el.classList.toggle('hidden', !showTranslations);
+      });
+    });
+
+    // Word Modal Logic
+    const wordModal = document.getElementById('wordModal');
+    const wordModalBody = document.getElementById('wordModalBody');
+
+    function openWordModal(key) {
+      const data = WORD_DICTIONARY[key];
+      if (!data) return;
+
+      wordModalBody.innerHTML = `
+        <div class="text-center pb-4 border-b border-slate-100">
+          <div class="arabic-text text-4xl sm:text-5xl font-bold text-[#065F46]">${data.word}</div>
+          <p class="text-xl font-bold text-slate-800 mt-1">${data.meaning}</p>
+        </div>
+
+        <div class="grid grid-cols-2 gap-3">
+          <div class="bg-stone-50 border border-slate-200/80 rounded-xl p-3 text-center">
+            <p class="text-xs font-semibold text-slate-500 mb-1">সমার্থক (مرادف)</p>
+            <p class="arabic-inline text-xl font-bold text-slate-800">${data.synonym}</p>
+          </div>
+          <div class="bg-stone-50 border border-slate-200/80 rounded-xl p-3 text-center">
+            <p class="text-xs font-semibold text-slate-500 mb-1">বিপরীত (مضاد)</p>
+            <p class="arabic-inline text-xl font-bold text-slate-800">${data.antonym}</p>
+          </div>
+        </div>
+
+        <div class="bg-white border border-slate-200 rounded-xl divide-y divide-slate-100 text-sm">
+          <div class="px-4 py-2.5 flex items-center justify-between gap-4">
+            <span class="font-semibold text-slate-500">সিগাহ (صيغة)</span>
+            <span class="font-bold text-slate-800 text-right">${data.sigah}</span>
+          </div>
+          <div class="px-4 py-2.5 flex items-center justify-between gap-4">
+            <span class="font-semibold text-slate-500">বহস (بحث)</span>
+            <span class="font-bold text-slate-800 text-right">${data.bahas}</span>
+          </div>
+          <div class="px-4 py-2.5 flex items-center justify-between gap-4">
+            <span class="font-semibold text-slate-500">বাব (باب)</span>
+            <span class="font-bold text-[#065F46] text-right">${data.bab}</span>
+          </div>
+          <div class="px-4 py-2.5 flex items-center justify-between gap-4">
+            <span class="font-semibold text-slate-500">মাদ্দাহ (مادة)</span>
+            <span class="arabic-inline text-lg font-bold text-[#B45309] text-right">${data.maddah}</span>
+          </div>
+          <div class="px-4 py-2.5 flex items-center justify-between gap-4">
+            <span class="font-semibold text-slate-500">জিনস (جنس)</span>
+            <span class="font-bold text-slate-800 text-right">${data.jins}</span>
+          </div>
+        </div>
+      `;
+
+      wordModal.classList.remove('hidden');
+      wordModal.classList.add('flex');
+    }
+
+    function closeWordModal() {
+      wordModal.classList.add('hidden');
+      wordModal.classList.remove('flex');
+    }
+
+    document.getElementById('closeWordModalBtn').addEventListener('click', closeWordModal);
+    wordModal.addEventListener('click', (e) => {
+      if (e.target === wordModal) closeWordModal();
+    });
+
+    // ==================== SLIDE 7: FLASHCARDS ====================
+    const flashcardsGrid = document.getElementById('flashcardsGrid');
+    let allFlipped = false;
+
+    function renderFlashcards() {
+      flashcardsGrid.innerHTML = '';
+      FLASHCARDS.forEach((item) => {
+        const card = document.createElement('div');
+        card.className = 'flip-card h-40';
+        card.onclick = () => card.classList.toggle('flipped');
+        card.innerHTML = `
+          <div class="flip-card-inner">
+            <div class="flip-card-front bg-white border border-slate-200 rounded-2xl p-5 shadow-sm flex flex-col items-center justify-center text-center hover:border-[#065F46] transition-colors">
+              <span class="arabic-inline text-3xl sm:text-4xl font-bold text-[#065F46]">${item.ar}</span>
+              <span class="text-[11px] text-slate-400 mt-2">অর্থ দেখতে ক্লিক করুন</span>
+            </div>
+            <div class="flip-card-back bg-[#065F46] text-white rounded-2xl p-5 shadow-sm flex flex-col items-center justify-center text-center">
+              <p class="text-base sm:text-lg font-bold leading-snug">${item.bn}</p>
+              <div class="mt-3 pt-2 border-t border-emerald-700/80 w-full">
+                <span class="text-xs text-emerald-200">মাদ্দাহ: </span>
+                <span class="arabic-inline text-lg font-bold text-amber-200">${item.maddah}</span>
+              </div>
+            </div>
+          </div>
+        `;
+        flashcardsGrid.appendChild(card);
+      });
+    }
+
+    document.getElementById('flipAllCardsBtn').addEventListener('click', () => {
+      allFlipped = !allFlipped;
+      document.querySelectorAll('.flip-card').forEach(c => c.classList.toggle('flipped', allFlipped));
+    });
+
+    // ==================== SLIDE 9: TAHQIQ INTERACTIVE VIEW ====================
+    const tahqiqWordList = document.getElementById('tahqiqWordList');
+    const tahqiqDetailCard = document.getElementById('tahqiqDetailCard');
+    let activeTahqiqIndex = 0;
+
+    function renderTahqiq() {
+      tahqiqWordList.innerHTML = '';
+      TAHQIQ_WORDS.forEach((item, idx) => {
+        const btn = document.createElement('button');
+        const isActive = idx === activeTahqiqIndex;
+        btn.className = `arabic-inline text-xl sm:text-2xl font-bold py-4 px-2 rounded-xl border transition-all text-center ${
+          isActive
+            ? 'bg-[#065F46] text-white border-[#065F46] shadow-sm'
+            : 'bg-white text-slate-800 border-slate-200 hover:border-[#065F46] hover:text-[#065F46]'
+        }`;
+        btn.textContent = item.word;
+        btn.onclick = () => {
+          activeTahqiqIndex = idx;
+          renderTahqiq();
+        };
+        tahqiqWordList.appendChild(btn);
+      });
+
+      const current = TAHQIQ_WORDS[activeTahqiqIndex];
+      tahqiqDetailCard.innerHTML = `
+        <div class="flex flex-wrap items-center justify-between gap-4 border-b border-slate-100 pb-5 mb-5">
+          <div>
+            <span class="text-xs font-semibold uppercase tracking-wider text-[#B45309]">নির্বাচিত শব্দের তাহকীক</span>
+            <p class="text-xl font-bold text-slate-800 mt-1">${current.meaning}</p>
+          </div>
+          <div class="arabic-inline text-4xl sm:text-5xl font-bold text-[#065F46]">${current.word}</div>
+        </div>
+
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-3.5">
+          <div class="bg-stone-50 border border-slate-200/80 rounded-xl p-4">
+            <p class="text-xs font-semibold text-slate-500">সিগাহ (صيغة)</p>
+            <p class="arabic-inline text-xl font-bold text-slate-900 mt-1">${current.sigah}</p>
+          </div>
+          <div class="bg-stone-50 border border-slate-200/80 rounded-xl p-4">
+            <p class="text-xs font-semibold text-slate-500">বহস (بحث)</p>
+            <p class="arabic-inline text-xl font-bold text-slate-900 mt-1">${current.bahas}</p>
+          </div>
+          <div class="bg-stone-50 border border-slate-200/80 rounded-xl p-4">
+            <p class="text-xs font-semibold text-slate-500">বাব (باب)</p>
+            <p class="arabic-inline text-xl font-bold text-[#065F46] mt-1">${current.bab}</p>
+          </div>
+          <div class="bg-stone-50 border border-slate-200/80 rounded-xl p-4">
+            <p class="text-xs font-semibold text-slate-500">মাদ্দাহ (مادة)</p>
+            <p class="arabic-inline text-2xl font-bold text-[#B45309] mt-1">${current.maddah}</p>
+          </div>
+          <div class="sm:col-span-2 bg-emerald-50/50 border border-emerald-200/70 rounded-xl p-4 flex items-center justify-between">
+            <span class="text-sm font-semibold text-[#065F46]">জিনস (جنس)</span>
+            <span class="arabic-inline text-xl font-bold text-[#065F46]">${current.jins}</span>
+          </div>
+        </div>
+      `;
+    }
+
+    // ==================== SLIDES 8, 10, 11: SMART COUNTDOWN TIMERS ====================
+    function initTimers() {
+      document.querySelectorAll('.timer-widget').forEach(widget => {
+        const initialSeconds = parseInt(widget.dataset.seconds, 10);
+        let remaining = initialSeconds;
+        let intervalId = null;
+        const display = widget.querySelector('.timer-display');
+        const startBtn = widget.querySelector('.timer-start');
+        const pauseBtn = widget.querySelector('.timer-pause');
+        const resetBtn = widget.querySelector('.timer-reset');
+
+        function updateDisplay() {
+          const mins = String(Math.floor(remaining / 60)).padStart(2, '0');
+          const secs = String(remaining % 60).padStart(2, '0');
+          display.textContent = `${toBn(mins)}:${toBn(secs)}`;
+          if (remaining === 0) {
+            display.classList.remove('text-[#065F46]');
+            display.classList.add('text-red-600');
+          } else {
+            display.classList.add('text-[#065F46]');
+            display.classList.remove('text-red-600');
+          }
+        }
+
+        startBtn.addEventListener('click', () => {
+          if (intervalId || remaining <= 0) return;
+          intervalId = setInterval(() => {
+            if (remaining > 0) {
+              remaining--;
+              updateDisplay();
+            } else {
+              clearInterval(intervalId);
+              intervalId = null;
+            }
+          }, 1000);
+        });
+
+        pauseBtn.addEventListener('click', () => {
+          if (intervalId) {
+            clearInterval(intervalId);
+            intervalId = null;
+          }
+        });
+
+        resetBtn.addEventListener('click', () => {
+          if (intervalId) {
+            clearInterval(intervalId);
+            intervalId = null;
+          }
+          remaining = initialSeconds;
+          updateDisplay();
+        });
+
+        updateDisplay();
+      });
+    }
+
+    // ==================== SLIDE 12: EVALUATION QUIZ ====================
+    const quizContainer = document.getElementById('quizContainer');
+    const quizScoreBadge = document.getElementById('quizScoreBadge');
+    const quizSummaryBox = document.getElementById('quizSummaryBox');
+    const quizSummaryText = document.getElementById('quizSummaryText');
+
+    let userAnswers = {};
+
+    function renderQuiz() {
+      quizContainer.innerHTML = '';
+      QUIZ_QUESTIONS.forEach((item, qIdx) => {
+        const answered = userAnswers[qIdx] !== undefined;
+        const selectedOpt = userAnswers[qIdx];
+        const card = document.createElement('div');
+        card.className = 'bg-white border border-slate-200 rounded-2xl p-6 shadow-sm space-y-4';
+
+        const optionsHtml = item.options.map((opt, oIdx) => {
+          let btnClass = 'bg-stone-50 border-slate-200 text-slate-800 hover:border-[#065F46] hover:bg-emerald-50/40';
+          if (answered) {
+            if (oIdx === item.answer) {
+              btnClass = 'bg-emerald-50 border-[#065F46] text-[#065F46] font-bold';
+            } else if (oIdx === selectedOpt && selectedOpt !== item.answer) {
+              btnClass = 'bg-red-50 border-red-400 text-red-700 font-semibold';
+            } else {
+              btnClass = 'bg-stone-50 border-slate-200 text-slate-400 opacity-70';
+            }
+          }
+          return `
+            <button onclick="selectQuizOption(${qIdx}, ${oIdx})" ${answered ? 'disabled' : ''} class="w-full text-left px-4 py-3 rounded-xl border text-base transition-all ${btnClass}">
+              <span class="font-bold mr-2">${['ক', 'খ', 'গ', 'ঘ'][oIdx]}.</span> ${opt}
+            </button>
+          `;
+        }).join('');
+
+        const feedbackHtml = answered ? `
+          <div class="mt-3 p-4 rounded-xl text-sm leading-relaxed ${
+            selectedOpt === item.answer
+              ? 'bg-emerald-50 border border-emerald-200 text-[#065F46]'
+              : 'bg-amber-50 border border-amber-200 text-[#B45309]'
+          }">
+            <span class="font-bold">${selectedOpt === item.answer ? 'সঠিক উত্তর!' : 'সঠিক নয়।'}</span> ${item.explanation}
+          </div>
+        ` : '';
+
+        card.innerHTML = `
+          <h3 class="text-lg font-bold text-slate-900">
+            <span class="text-[#065F46] mr-1">${toBn(qIdx + 1)}.</span> ${item.q}
+          </h3>
+          <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+            ${optionsHtml}
+          </div>
+          ${feedbackHtml}
+        `;
+        quizContainer.appendChild(card);
+      });
+
+      const score = Object.keys(userAnswers).reduce((acc, k) => acc + (userAnswers[k] === QUIZ_QUESTIONS[k].answer ? 1 : 0), 0);
+      quizScoreBadge.textContent = `স্কোর: ${toBn(score)} / ${toBn(QUIZ_QUESTIONS.length)}`;
+
+      if (Object.keys(userAnswers).length === QUIZ_QUESTIONS.length) {
+        quizSummaryBox.classList.remove('hidden');
+        quizSummaryText.textContent = `আপনার মোট স্কোর: ${toBn(score)} / ${toBn(QUIZ_QUESTIONS.length)}`;
+      } else {
+        quizSummaryBox.classList.add('hidden');
+      }
+    }
+
+    function selectQuizOption(qIdx, oIdx) {
+      if (userAnswers[qIdx] !== undefined) return;
+      userAnswers[qIdx] = oIdx;
+      renderQuiz();
+    }
+
+    function resetQuiz() {
+      userAnswers = {};
+      renderQuiz();
+    }
+
+    document.getElementById('resetQuizBtn').addEventListener('click', resetQuiz);
+
+    // ==================== INITIALIZE APP ====================
+    renderAyahs();
+    renderFlashcards();
+    renderTahqiq();
+    initTimers();
+    renderQuiz();
+    goToSlide(0);
+  </script>
+</body>
+</html>
