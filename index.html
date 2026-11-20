@@ -48,6 +48,7 @@
       margin: 0;
       padding: 0;
       height: 100%;
+      height: 100dvh;
       overflow: hidden;
     }
 
@@ -85,16 +86,43 @@
       margin: 0 0.08rem;
       border-radius: 0.375rem;
       cursor: pointer;
+      background: transparent;
+      border: 0;
+      font: inherit;
+      color: inherit;
+      line-height: inherit;
       transition: background-color 0.15s ease, color 0.15s ease;
     }
 
-    .word-token:hover {
+    .word-token:hover,
+    .word-token:active,
+    .word-token:focus-visible {
       background-color: #ECFDF5;
       color: #065F46;
       text-decoration: underline;
       text-decoration-color: #B45309;
       text-underline-offset: 8px;
       text-decoration-thickness: 1.5px;
+    }
+
+    /* Accessible Focus Rings & Touch Responsiveness */
+    button, [role="button"] {
+      touch-action: manipulation;
+    }
+
+    button:focus-visible,
+    [role="button"]:focus-visible {
+      outline: 2px solid #065F46;
+      outline-offset: 2px;
+    }
+
+    /* Respect Reduced Motion */
+    @media (prefers-reduced-motion: reduce) {
+      *, *::before, *::after {
+        animation-duration: 0.01ms !important;
+        transition-duration: 0.01ms !important;
+        scroll-behavior: auto !important;
+      }
     }
 
     /* Flashcard 3D Flip */
@@ -150,32 +178,32 @@
     }
   </style>
 </head>
-<body class="flex flex-col h-screen select-none bg-[#FAFAF9] text-[#1E293B]">
+<body class="flex flex-col h-[100dvh] bg-[#FAFAF9] text-[#1E293B]">
 
   <!-- Top Minimal Header -->
-  <header class="h-14 px-6 lg:px-10 border-b border-slate-200/80 bg-white/90 backdrop-blur-sm flex items-center justify-between shrink-0 z-30">
-    <div class="flex items-center gap-3">
-      <span class="w-2.5 h-2.5 rounded-full bg-[#065F46]"></span>
-      <span class="text-sm font-semibold tracking-wide text-slate-700">সূরা আল-বাকারা (আয়াত ১০-১৫)</span>
-      <span class="hidden sm:inline text-slate-300">|</span>
-      <span class="hidden sm:inline text-xs font-medium text-slate-500">দাখিল ১০ম শ্রেণি • আল-কুরআনুল মাজীদ ও তাজবীদ</span>
+  <header class="min-h-14 px-3 sm:px-6 lg:px-10 py-2 border-b border-slate-200/80 bg-white/90 backdrop-blur-sm flex items-center justify-between gap-2 shrink-0 z-30 select-none">
+    <div class="flex items-center gap-2 sm:gap-3 min-w-0">
+      <span class="w-2.5 h-2.5 rounded-full bg-[#065F46] shrink-0" aria-hidden="true"></span>
+      <span class="text-xs sm:text-sm font-semibold tracking-wide text-slate-700 truncate">সূরা আল-বাকারা (আয়াত ১০-১৫)</span>
+      <span class="hidden md:inline text-slate-300 shrink-0" aria-hidden="true">|</span>
+      <span class="hidden md:inline text-xs font-medium text-slate-500 truncate">দাখিল ১০ম শ্রেণি • আল-কুরআনুল মাজীদ ও তাজবীদ</span>
     </div>
 
-    <div class="flex items-center gap-2">
+    <div class="flex items-center gap-2 shrink-0">
       <!-- Quick Slide Jump Menu Button -->
-      <button id="menuToggleBtn" class="flex items-center gap-1.5 px-3 py-1.5 text-xs font-medium text-slate-600 bg-slate-50 hover:bg-slate-100 border border-slate-200 rounded-lg transition-colors" title="স্লাইড তালিকা">
-        <svg class="w-4 h-4 text-[#065F46]" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+      <button id="menuToggleBtn" type="button" aria-label="স্লাইড তালিকা খুলুন" aria-expanded="false" class="flex items-center justify-center gap-1.5 min-h-[40px] min-w-[40px] sm:min-w-0 px-2.5 sm:px-3 py-1.5 text-xs font-medium text-slate-600 bg-slate-50 hover:bg-slate-100 border border-slate-200 rounded-lg transition-colors" title="স্লাইড তালিকা">
+        <svg class="w-4 h-4 text-[#065F46] shrink-0" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
           <path stroke-linecap="round" stroke-linejoin="round" d="M4 6h16M4 12h16M4 18h10" />
         </svg>
         <span class="hidden sm:inline">স্লাইড তালিকা</span>
       </button>
 
       <!-- Fullscreen Toggle -->
-      <button id="fullscreenBtn" class="flex items-center gap-1.5 px-3 py-1.5 text-xs font-medium text-slate-600 bg-slate-50 hover:bg-slate-100 border border-slate-200 rounded-lg transition-colors" title="ফুল-স্ক্রিন">
-        <svg id="fsIconEnter" class="w-4 h-4 text-slate-600" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+      <button id="fullscreenBtn" type="button" aria-label="ফুল-স্ক্রিন টগল করুন" class="flex items-center justify-center gap-1.5 min-h-[40px] min-w-[40px] sm:min-w-0 px-2.5 sm:px-3 py-1.5 text-xs font-medium text-slate-600 bg-slate-50 hover:bg-slate-100 border border-slate-200 rounded-lg transition-colors" title="ফুল-স্ক্রিন">
+        <svg id="fsIconEnter" class="w-4 h-4 text-slate-600 shrink-0" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
           <path stroke-linecap="round" stroke-linejoin="round" d="M4 8V4m0 0h4M4 4l5 5m11-1V4m0 0h-4m4 0l-5 5M4 16v4m0 0h4m-4 0l5-5m11 5l-5-5m5 5v-4m0 4h-4" />
         </svg>
-        <svg id="fsIconExit" class="w-4 h-4 text-slate-600 hidden" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+        <svg id="fsIconExit" class="w-4 h-4 text-slate-600 hidden shrink-0" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
           <path stroke-linecap="round" stroke-linejoin="round" d="M9 9V4H4m5 5L4 4m11 5h5V4m-5 5l5-5M9 15v5H4m5-5l-5 5m11-5h5v5m-5-5l5 5" />
         </svg>
         <span class="hidden sm:inline" id="fsLabel">ফুল-স্ক্রিন</span>
@@ -184,17 +212,17 @@
   </header>
 
   <!-- Main Presentation Stage -->
-  <main id="presentationStage" class="flex-1 relative overflow-hidden flex flex-col">
+  <main id="presentationStage" class="flex-1 min-h-0 relative overflow-hidden flex flex-col">
 
     <!-- ==================== SLIDE 1: শিক্ষক পরিচিতি ==================== -->
-    <section class="slide active w-full h-full flex-col items-center justify-center p-6 lg:p-12 overflow-y-auto slide-scroll" data-title="শিক্ষক পরিচিতি">
-      <div class="max-w-3xl w-full text-center space-y-8">
-        <div class="arabic-text text-3xl sm:text-4xl lg:text-5xl text-[#065F46] font-bold tracking-wide">
+    <section class="slide active w-full h-full flex-col items-center p-4 sm:p-6 lg:p-12 overflow-y-auto slide-scroll" data-title="শিক্ষক পরিচিতি">
+      <div class="max-w-3xl w-full my-auto text-center space-y-6 sm:space-y-8 py-2">
+        <div class="arabic-text text-2xl sm:text-4xl lg:text-5xl text-[#065F46] font-bold tracking-wide">
           بِسْمِ اللَّهِ الرَّحْمَٰنِ الرَّحِيمِ
         </div>
 
         <div class="space-y-2">
-          <p class="text-xl sm:text-2xl font-semibold text-[#B45309]">আসসালামু আলাইকুম ওয়া রাহমাতুল্লাহ</p>
+          <p class="text-lg sm:text-2xl font-semibold text-[#B45309]">আসসালামু আলাইকুম ওয়া রাহমাতুল্লাহ</p>
           <h1 class="text-2xl sm:text-3xl lg:text-4xl font-bold text-slate-800">
             ইন্টারেক্টিভ ডিজিটাল শ্রেণিকক্ষে সবাইকে স্বাগতম
           </h1>
@@ -202,10 +230,10 @@
 
         <div class="w-24 h-px bg-slate-300 mx-auto"></div>
 
-        <div class="bg-white border border-slate-200 rounded-2xl p-8 sm:p-10 shadow-sm max-w-xl mx-auto">
+        <div class="bg-white border border-slate-200 rounded-2xl p-6 sm:p-10 shadow-sm max-w-xl mx-auto">
           <p class="text-xs uppercase tracking-widest font-semibold text-[#065F46] mb-3">উপস্থাপনায়</p>
           <h2 class="text-2xl sm:text-3xl font-bold text-slate-900 mb-2">কাজী উম্মে হাবিবা</h2>
-          <p class="text-lg font-medium text-slate-600 mb-4">প্রভাষক (আরবি)</p>
+          <p class="text-base sm:text-lg font-medium text-slate-600 mb-4">প্রভাষক (আরবি)</p>
           <div class="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-emerald-50/70 border border-emerald-200/70 text-[#065F46] text-sm sm:text-base font-medium">
             <span>আল জামিয়াতুল ফালাহিয়া কামিল মাদ্রাসা</span>
           </div>
@@ -214,12 +242,12 @@
     </section>
 
     <!-- ==================== SLIDE 2: পাঠ পরিচিতি ==================== -->
-    <section class="slide w-full h-full flex-col items-center justify-center p-6 lg:p-12 overflow-y-auto slide-scroll" data-title="পাঠ পরিচিতি">
-      <div class="max-w-5xl w-full space-y-6">
-        <div class="flex items-center justify-between border-b border-slate-200 pb-4">
+    <section class="slide w-full h-full flex-col items-center p-4 sm:p-6 lg:p-12 overflow-y-auto slide-scroll" data-title="পাঠ পরিচিতি">
+      <div class="max-w-5xl w-full my-auto space-y-5 sm:space-y-6 py-2">
+        <div class="flex flex-wrap items-center justify-between gap-3 border-b border-slate-200 pb-4">
           <div>
             <span class="text-xs font-semibold uppercase tracking-widest text-[#B45309]">স্লাইড ০২</span>
-            <h2 class="text-3xl font-bold text-slate-900 mt-1">পাঠ পরিচিতি</h2>
+            <h2 class="text-2xl sm:text-3xl font-bold text-slate-900 mt-1">পাঠ পরিচিতি</h2>
           </div>
           <span class="arabic-inline text-2xl sm:text-3xl text-[#065F46] font-bold">سُورَةُ الْبَقَرَةِ</span>
         </div>
@@ -254,26 +282,26 @@
     </section>
 
     <!-- ==================== SLIDE 3: পূর্বজ্ঞান যাচাই ও পাঠ ঘোষণা ==================== -->
-    <section class="slide w-full h-full flex-col items-center justify-center p-6 lg:p-12 overflow-y-auto slide-scroll" data-title="পূর্বজ্ঞান যাচাই ও পাঠ ঘোষণা">
-      <div class="max-w-5xl w-full space-y-6">
+    <section class="slide w-full h-full flex-col items-center p-4 sm:p-6 lg:p-12 overflow-y-auto slide-scroll" data-title="পূর্বজ্ঞান যাচাই ও পাঠ ঘোষণা">
+      <div class="max-w-5xl w-full my-auto space-y-5 sm:space-y-6 py-2">
         <div class="flex flex-wrap items-end justify-between gap-4 border-b border-slate-200 pb-4">
           <div>
             <span class="text-xs font-semibold uppercase tracking-widest text-[#B45309]">স্লাইড ০৩</span>
-            <h2 class="text-3xl font-bold text-slate-900 mt-1">পূর্বজ্ঞান যাচাই ও পাঠ ঘোষণা</h2>
+            <h2 class="text-2xl sm:text-3xl font-bold text-slate-900 mt-1">পূর্বজ্ঞান যাচাই ও পাঠ ঘোষণা</h2>
             <p class="text-sm text-slate-500 mt-1">সূরা আল-বাকারার ১-৯ নং আয়াতের আলোকে মানবজাতির শ্রেণিবিভাগ (কার্ডে ক্লিক করে উত্তর দেখুন)</p>
           </div>
-          <button id="toggleAllPriorBtn" class="px-4 py-2 text-xs font-semibold text-[#065F46] bg-emerald-50 hover:bg-emerald-100 border border-emerald-200 rounded-lg transition-colors">
-            সব উত্তর দেখুন / লুকান
+          <button id="toggleAllPriorBtn" type="button" class="min-h-[40px] px-4 py-2 text-xs font-semibold text-[#065F46] bg-emerald-50 hover:bg-emerald-100 border border-emerald-200 rounded-lg transition-colors">
+            সব উত্তর দেখুন
           </button>
         </div>
 
-        <div class="grid grid-cols-1 md:grid-cols-3 gap-5">
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-4 sm:gap-5">
           <!-- Class 1 -->
-          <div class="prior-card bg-white border border-slate-200 rounded-xl p-6 shadow-sm cursor-pointer hover:border-[#065F46] transition-all flex flex-col justify-between" onclick="togglePriorCard(this)">
+          <div class="prior-card select-none bg-white border border-slate-200 rounded-xl p-5 sm:p-6 shadow-sm cursor-pointer hover:border-[#065F46] transition-all flex flex-col justify-between" role="button" tabindex="0" aria-expanded="false" onclick="togglePriorCard(this)" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();togglePriorCard(this);}">
             <div>
-              <div class="flex items-center justify-between mb-3">
+              <div class="flex items-center justify-between gap-2 mb-3">
                 <span class="text-xs font-bold px-2.5 py-1 rounded-full bg-emerald-50 text-[#065F46]">১ম শ্রেণি (আয়াত ১-৫)</span>
-                <span class="text-xs text-slate-400 toggle-hint">ক্লিক করুন</span>
+                <span class="text-xs text-slate-400 toggle-hint shrink-0">ক্লিক করুন</span>
               </div>
               <h3 class="text-xl font-bold text-slate-900">মুত্তাকী <span class="arabic-inline text-2xl text-[#065F46] mr-1">المتقون</span></h3>
             </div>
@@ -283,11 +311,11 @@
           </div>
 
           <!-- Class 2 -->
-          <div class="prior-card bg-white border border-slate-200 rounded-xl p-6 shadow-sm cursor-pointer hover:border-[#065F46] transition-all flex flex-col justify-between" onclick="togglePriorCard(this)">
+          <div class="prior-card select-none bg-white border border-slate-200 rounded-xl p-5 sm:p-6 shadow-sm cursor-pointer hover:border-[#065F46] transition-all flex flex-col justify-between" role="button" tabindex="0" aria-expanded="false" onclick="togglePriorCard(this)" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();togglePriorCard(this);}">
             <div>
-              <div class="flex items-center justify-between mb-3">
+              <div class="flex items-center justify-between gap-2 mb-3">
                 <span class="text-xs font-bold px-2.5 py-1 rounded-full bg-slate-100 text-slate-700">২য় শ্রেণি (আয়াত ৬-৭)</span>
-                <span class="text-xs text-slate-400 toggle-hint">ক্লিক করুন</span>
+                <span class="text-xs text-slate-400 toggle-hint shrink-0">ক্লিক করুন</span>
               </div>
               <h3 class="text-xl font-bold text-slate-900">কাফির <span class="arabic-inline text-2xl text-slate-700 mr-1">الكافرون</span></h3>
             </div>
@@ -297,11 +325,11 @@
           </div>
 
           <!-- Class 3 -->
-          <div class="prior-card bg-white border border-amber-300/80 rounded-xl p-6 shadow-sm cursor-pointer hover:border-[#B45309] transition-all flex flex-col justify-between" onclick="togglePriorCard(this)">
+          <div class="prior-card select-none bg-white border border-amber-300/80 rounded-xl p-5 sm:p-6 shadow-sm cursor-pointer hover:border-[#B45309] transition-all flex flex-col justify-between" role="button" tabindex="0" aria-expanded="false" onclick="togglePriorCard(this)" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();togglePriorCard(this);}">
             <div>
-              <div class="flex items-center justify-between mb-3">
+              <div class="flex items-center justify-between gap-2 mb-3">
                 <span class="text-xs font-bold px-2.5 py-1 rounded-full bg-amber-50 text-[#B45309]">৩য় শ্রেণি (আয়াত ৮-২০)</span>
-                <span class="text-xs text-slate-400 toggle-hint">ক্লিক করুন</span>
+                <span class="text-xs text-slate-400 toggle-hint shrink-0">ক্লিক করুন</span>
               </div>
               <h3 class="text-xl font-bold text-slate-900">মুনাফিক <span class="arabic-inline text-2xl text-[#B45309] mr-1">المنافقون</span></h3>
             </div>
@@ -311,9 +339,9 @@
           </div>
         </div>
 
-        <div class="bg-[#065F46] text-white rounded-2xl p-6 sm:p-7 shadow-sm text-center">
+        <div class="bg-[#065F46] text-white rounded-2xl p-5 sm:p-7 shadow-sm text-center">
           <p class="text-xs uppercase tracking-widest text-emerald-200 font-semibold mb-2">আজকের পাঠ ঘোষণা</p>
-          <p class="text-xl sm:text-2xl font-bold leading-snug">
+          <p class="text-lg sm:text-2xl font-bold leading-snug">
             “সূরা আল-বাকারা: আয়াত ১০-১৫ (মুনাফিকদের অন্তরের ব্যাধি, ফাসাদ ও দ্বিমুখী আচরণ)”
           </p>
         </div>
@@ -321,41 +349,41 @@
     </section>
 
     <!-- ==================== SLIDE 4: শিখনফল ==================== -->
-    <section class="slide w-full h-full flex-col items-center justify-center p-6 lg:p-12 overflow-y-auto slide-scroll" data-title="শিখনফল">
-      <div class="max-w-4xl w-full space-y-6">
+    <section class="slide w-full h-full flex-col items-center p-4 sm:p-6 lg:p-12 overflow-y-auto slide-scroll" data-title="শিখনফল">
+      <div class="max-w-4xl w-full my-auto space-y-5 sm:space-y-6 py-2">
         <div class="border-b border-slate-200 pb-4">
           <span class="text-xs font-semibold uppercase tracking-widest text-[#B45309]">স্লাইড ০৪</span>
-          <h2 class="text-3xl font-bold text-slate-900 mt-1">শিখনফল</h2>
+          <h2 class="text-2xl sm:text-3xl font-bold text-slate-900 mt-1">শিখনফল</h2>
           <p class="text-base text-slate-500 mt-1">এই পাঠ শেষে শিক্ষার্থীরা যা অর্জন করবে:</p>
         </div>
 
-        <div class="space-y-4">
-          <div class="bg-white border border-slate-200 rounded-xl p-5 shadow-sm flex items-start gap-4">
+        <div class="space-y-3.5 sm:space-y-4">
+          <div class="bg-white border border-slate-200 rounded-xl p-4 sm:p-5 shadow-sm flex items-start gap-3.5 sm:gap-4">
             <span class="w-9 h-9 rounded-lg bg-emerald-50 border border-emerald-200 text-[#065F46] font-bold flex items-center justify-center shrink-0">১</span>
-            <p class="text-lg text-slate-800 leading-relaxed pt-0.5">সূরা আল-বাকারার ১০-১৫ নং আয়াত সহীহ-শুদ্ধভাবে ও তাজবীদসহ তিলাওয়াত করতে পারবে।</p>
+            <p class="text-base sm:text-lg text-slate-800 leading-relaxed pt-0.5">সূরা আল-বাকারার ১০-১৫ নং আয়াত সহীহ-শুদ্ধভাবে ও তাজবীদসহ তিলাওয়াত করতে পারবে।</p>
           </div>
-          <div class="bg-white border border-slate-200 rounded-xl p-5 shadow-sm flex items-start gap-4">
+          <div class="bg-white border border-slate-200 rounded-xl p-4 sm:p-5 shadow-sm flex items-start gap-3.5 sm:gap-4">
             <span class="w-9 h-9 rounded-lg bg-emerald-50 border border-emerald-200 text-[#065F46] font-bold flex items-center justify-center shrink-0">২</span>
-            <p class="text-lg text-slate-800 leading-relaxed pt-0.5">আয়াতসমূহে ব্যবহৃত গুরুত্বপূর্ণ আরবি শব্দের অর্থ, সমার্থক, বিপরীত শব্দ ও পূর্ণাঙ্গ তাহকীক বর্ণনা করতে পারবে।</p>
+            <p class="text-base sm:text-lg text-slate-800 leading-relaxed pt-0.5">আয়াতসমূহে ব্যবহৃত গুরুত্বপূর্ণ আরবি শব্দের অর্থ, সমার্থক, বিপরীত শব্দ ও পূর্ণাঙ্গ তাহকীক বর্ণনা করতে পারবে।</p>
           </div>
-          <div class="bg-white border border-slate-200 rounded-xl p-5 shadow-sm flex items-start gap-4">
+          <div class="bg-white border border-slate-200 rounded-xl p-4 sm:p-5 shadow-sm flex items-start gap-3.5 sm:gap-4">
             <span class="w-9 h-9 rounded-lg bg-emerald-50 border border-emerald-200 text-[#065F46] font-bold flex items-center justify-center shrink-0">৩</span>
-            <p class="text-lg text-slate-800 leading-relaxed pt-0.5">মুনাফিকদের অন্তরের ব্যাধি, সমাজে বিশৃঙ্খলা সৃষ্টি ও দ্বিমুখী স্বভাবের স্বরূপ ব্যাখ্যা করতে পারবে।</p>
+            <p class="text-base sm:text-lg text-slate-800 leading-relaxed pt-0.5">মুনাফিকদের অন্তরের ব্যাধি, সমাজে বিশৃঙ্খলা সৃষ্টি ও দ্বিমুখী স্বভাবের স্বরূপ ব্যাখ্যা করতে পারবে।</p>
           </div>
-          <div class="bg-white border border-slate-200 rounded-xl p-5 shadow-sm flex items-start gap-4">
+          <div class="bg-white border border-slate-200 rounded-xl p-4 sm:p-5 shadow-sm flex items-start gap-3.5 sm:gap-4">
             <span class="w-9 h-9 rounded-lg bg-emerald-50 border border-emerald-200 text-[#065F46] font-bold flex items-center justify-center shrink-0">৪</span>
-            <p class="text-lg text-slate-800 leading-relaxed pt-0.5">নিফাক বা কপটতার ভয়াবহ পরিণতি উপলব্ধি করে বাস্তব জীবনে খাঁটি মুমিন হওয়ার শিক্ষা গ্রহণ করতে পারবে।</p>
+            <p class="text-base sm:text-lg text-slate-800 leading-relaxed pt-0.5">নিফাক বা কপটতার ভয়াবহ পরিণতি উপলব্ধি করে বাস্তব জীবনে খাঁটি মুমিন হওয়ার শিক্ষা গ্রহণ করতে পারবে।</p>
           </div>
         </div>
       </div>
     </section>
 
     <!-- ==================== SLIDE 5: প্রেক্ষাপট ==================== -->
-    <section class="slide w-full h-full flex-col items-center justify-center p-6 lg:p-12 overflow-y-auto slide-scroll" data-title="আয়াতের প্রেক্ষাপট">
-      <div class="max-w-5xl w-full space-y-6">
+    <section class="slide w-full h-full flex-col items-center p-4 sm:p-6 lg:p-12 overflow-y-auto slide-scroll" data-title="আয়াতের প্রেক্ষাপট">
+      <div class="max-w-5xl w-full my-auto space-y-5 sm:space-y-6 py-2">
         <div class="border-b border-slate-200 pb-4">
           <span class="text-xs font-semibold uppercase tracking-widest text-[#B45309]">স্লাইড ০৫</span>
-          <h2 class="text-3xl font-bold text-slate-900 mt-1">সূরা আল-বাকারার ১০-১৫ আয়াতের প্রেক্ষাপট</h2>
+          <h2 class="text-2xl sm:text-3xl font-bold text-slate-900 mt-1">সূরা আল-বাকারার ১০-১৫ আয়াতের প্রেক্ষাপট</h2>
         </div>
 
         <div class="bg-white border border-slate-200 border-l-4 border-l-[#B45309] rounded-xl p-6 shadow-sm">
@@ -394,32 +422,32 @@
     </section>
 
     <!-- ==================== SLIDE 6: আদর্শ তিলাওয়াত ও শব্দ বিশ্লেষণ ==================== -->
-    <section class="slide w-full h-full flex-col items-center p-5 lg:px-10 lg:py-6 overflow-y-auto slide-scroll" data-title="আদর্শ তিলাওয়াত ও শব্দ বিশ্লেষণ">
-      <div class="max-w-5xl w-full space-y-5 pb-6">
+    <section class="slide w-full h-full flex-col items-center p-4 sm:p-5 lg:px-10 lg:py-6 overflow-y-auto slide-scroll" data-title="আদর্শ তিলাওয়াত ও শব্দ বিশ্লেষণ">
+      <div class="max-w-5xl w-full space-y-4 sm:space-y-5 pb-6">
         <!-- Header & Audio Controls -->
-        <div class="bg-white border border-slate-200 rounded-2xl p-4 sm:p-5 shadow-sm flex flex-wrap items-center justify-between gap-4 sticky top-0 z-20">
-          <div>
+        <div class="bg-white border border-slate-200 rounded-2xl p-4 sm:p-5 shadow-sm flex flex-wrap items-center justify-between gap-3 sm:gap-4 sm:sticky sm:top-0 z-20">
+          <div class="min-w-0">
             <span class="text-xs font-semibold uppercase tracking-widest text-[#B45309]">স্লাইড ০৬ • ক্বারী মিশারী রশিদ আল-আফাসী</span>
             <h2 class="text-xl sm:text-2xl font-bold text-slate-900">আদর্শ তিলাওয়াত ও ক্লিকেবল শব্দ বিশ্লেষণ</h2>
             <p class="text-xs text-slate-500 mt-0.5">যেকোনো আরবি শব্দে ক্লিক করে তার অর্থ, সমার্থক, বিপরীত ও তাহকীক দেখুন</p>
           </div>
 
-          <div class="flex flex-wrap items-center gap-2.5">
+          <div class="flex flex-wrap items-center gap-2">
             <!-- Play All Sequential Button -->
-            <button id="playAllBtn" class="flex items-center gap-2 px-4 py-2 rounded-lg bg-[#065F46] hover:bg-emerald-900 text-white text-xs sm:text-sm font-semibold transition-colors">
-              <svg id="playAllIcon" class="w-4 h-4" fill="currentColor" viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>
+            <button id="playAllBtn" type="button" class="flex items-center gap-2 min-h-[40px] px-3.5 sm:px-4 py-2 rounded-lg bg-[#065F46] hover:bg-emerald-900 text-white text-xs sm:text-sm font-semibold transition-colors">
+              <svg id="playAllIcon" class="w-4 h-4 shrink-0" aria-hidden="true" fill="currentColor" viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>
               <span id="playAllText">সবগুলো ধারাবাহিকভাবে শুনুন</span>
             </button>
 
             <!-- Speed Controls -->
-            <div class="flex items-center bg-slate-100 rounded-lg p-1 border border-slate-200" role="group" aria-label="প্লেব্যাক স্পিড">
-              <button class="speed-btn px-2.5 py-1 text-xs font-semibold rounded-md text-slate-600 hover:text-slate-900" data-speed="0.75">0.75x</button>
-              <button class="speed-btn px-2.5 py-1 text-xs font-semibold rounded-md bg-white text-[#065F46] shadow-sm" data-speed="1">1x</button>
-              <button class="speed-btn px-2.5 py-1 text-xs font-semibold rounded-md text-slate-600 hover:text-slate-900" data-speed="1.25">1.25x</button>
+            <div class="flex items-center bg-slate-100 rounded-lg p-1 border border-slate-200 gap-0.5" role="group" aria-label="প্লেব্যাক স্পিড">
+              <button type="button" class="speed-btn min-h-[32px] px-2.5 py-1 text-xs font-semibold rounded-md text-slate-600 hover:text-slate-900" data-speed="0.75" aria-pressed="false">0.75x</button>
+              <button type="button" class="speed-btn min-h-[32px] px-2.5 py-1 text-xs font-semibold rounded-md bg-white text-[#065F46] shadow-sm" data-speed="1" aria-pressed="true">1x</button>
+              <button type="button" class="speed-btn min-h-[32px] px-2.5 py-1 text-xs font-semibold rounded-md text-slate-600 hover:text-slate-900" data-speed="1.25" aria-pressed="false">1.25x</button>
             </div>
 
             <!-- Translation Show/Hide Toggle -->
-            <button id="toggleTranslationBtn" class="px-3 py-2 rounded-lg border border-slate-200 bg-slate-50 hover:bg-slate-100 text-xs font-semibold text-slate-700 transition-colors">
+            <button id="toggleTranslationBtn" type="button" class="min-h-[40px] px-3 py-2 rounded-lg border border-slate-200 bg-slate-50 hover:bg-slate-100 text-xs font-semibold text-slate-700 transition-colors">
               অনুবাদ লুকান
             </button>
           </div>
@@ -431,15 +459,15 @@
     </section>
 
     <!-- ==================== SLIDE 7: শাব্দিক অর্থ (ফ্ল্যাশকার্ড) ==================== -->
-    <section class="slide w-full h-full flex-col items-center p-6 lg:p-10 overflow-y-auto slide-scroll" data-title="শাব্দিক অর্থ (ফ্ল্যাশকার্ড)">
-      <div class="max-w-6xl w-full space-y-6 pb-6">
+    <section class="slide w-full h-full flex-col items-center p-4 sm:p-6 lg:p-10 overflow-y-auto slide-scroll" data-title="শাব্দিক অর্থ (ফ্ল্যাশকার্ড)">
+      <div class="max-w-6xl w-full space-y-5 sm:space-y-6 pb-6">
         <div class="flex flex-wrap items-end justify-between gap-4 border-b border-slate-200 pb-4">
           <div>
             <span class="text-xs font-semibold uppercase tracking-widest text-[#B45309]">স্লাইড ০৭</span>
-            <h2 class="text-3xl font-bold text-slate-900 mt-1">শাব্দিক অর্থ (ইন্টারঅ্যাক্টিভ ফ্ল্যাশকার্ড)</h2>
+            <h2 class="text-2xl sm:text-3xl font-bold text-slate-900 mt-1">শাব্দিক অর্থ (ইন্টারঅ্যাক্টিভ ফ্ল্যাশকার্ড)</h2>
             <p class="text-sm text-slate-500 mt-1">যেকোনো কার্ডে ক্লিক করলে বাংলা অর্থ ও মাদ্দাহ (মূলবর্ণ) প্রদর্শিত হবে</p>
           </div>
-          <button id="flipAllCardsBtn" class="px-4 py-2 text-xs font-semibold text-[#065F46] bg-emerald-50 hover:bg-emerald-100 border border-emerald-200 rounded-lg transition-colors">
+          <button id="flipAllCardsBtn" type="button" class="min-h-[40px] px-4 py-2 text-xs font-semibold text-[#065F46] bg-emerald-50 hover:bg-emerald-100 border border-emerald-200 rounded-lg transition-colors">
             সব কার্ড উল্টে দেখুন
           </button>
         </div>
@@ -449,44 +477,44 @@
     </section>
 
     <!-- ==================== SLIDE 8: একক কাজ (২ মিনিট টাইমার) ==================== -->
-    <section class="slide w-full h-full flex-col items-center justify-center p-6 lg:p-12 overflow-y-auto slide-scroll" data-title="একক কাজ">
-      <div class="max-w-4xl w-full space-y-6">
+    <section class="slide w-full h-full flex-col items-center p-4 sm:p-6 lg:p-12 overflow-y-auto slide-scroll" data-title="একক কাজ">
+      <div class="max-w-4xl w-full my-auto space-y-5 sm:space-y-6 py-2">
         <div class="flex flex-wrap items-center justify-between gap-4 border-b border-slate-200 pb-4">
           <div>
             <span class="text-xs font-semibold uppercase tracking-widest text-[#B45309]">স্লাইড ০৮ • ব্যক্তিগত অনুশীলন</span>
-            <h2 class="text-3xl font-bold text-slate-900 mt-1">একক কাজ</h2>
+            <h2 class="text-2xl sm:text-3xl font-bold text-slate-900 mt-1">একক কাজ</h2>
           </div>
           <!-- Smart Timer Widget -->
-          <div class="timer-widget bg-white border border-slate-200 rounded-xl px-5 py-3 shadow-sm flex items-center gap-4" data-seconds="120">
-            <div class="text-2xl font-bold font-mono text-[#065F46] timer-display">০২:০০</div>
-            <div class="flex items-center gap-1.5">
-              <button class="timer-start px-3 py-1.5 text-xs font-semibold rounded-lg bg-[#065F46] text-white hover:bg-emerald-900 transition-colors">শুরু</button>
-              <button class="timer-pause px-3 py-1.5 text-xs font-semibold rounded-lg bg-amber-50 text-[#B45309] border border-amber-200 hover:bg-amber-100 transition-colors">বিরতি</button>
-              <button class="timer-reset px-3 py-1.5 text-xs font-semibold rounded-lg bg-slate-100 text-slate-600 hover:bg-slate-200 transition-colors">রিসেট</button>
+          <div class="timer-widget bg-white border border-slate-200 rounded-xl px-4 py-2.5 shadow-sm flex flex-wrap items-center justify-between sm:justify-start gap-3 w-full sm:w-auto select-none" data-seconds="120">
+            <div class="text-2xl font-bold font-mono text-[#065F46] timer-display tabular-nums" aria-live="off">০২:০০</div>
+            <div class="flex items-center gap-2">
+              <button type="button" class="timer-start min-h-[38px] px-3 py-1.5 text-xs font-semibold rounded-lg bg-[#065F46] text-white hover:bg-emerald-900 disabled:opacity-40 disabled:cursor-not-allowed transition-colors">শুরু</button>
+              <button type="button" class="timer-pause min-h-[38px] px-3 py-1.5 text-xs font-semibold rounded-lg bg-amber-50 text-[#B45309] border border-amber-200 hover:bg-amber-100 disabled:opacity-40 disabled:cursor-not-allowed transition-colors" disabled>বিরতি</button>
+              <button type="button" class="timer-reset min-h-[38px] px-3 py-1.5 text-xs font-semibold rounded-lg bg-slate-100 text-slate-600 hover:bg-slate-200 transition-colors">রিসেট</button>
             </div>
           </div>
         </div>
 
-        <div class="bg-white border border-slate-200 rounded-2xl p-7 sm:p-9 shadow-sm space-y-6">
-          <div class="flex items-start gap-4">
-            <span class="w-8 h-8 rounded-full bg-emerald-50 border border-emerald-200 text-[#065F46] font-bold flex items-center justify-center shrink-0 mt-1">১</span>
-            <div class="space-y-3">
-              <p class="text-xl font-semibold text-slate-800">নিচের ৫টি আরবি শব্দের বাংলা অর্থ লেখো:</p>
-              <div class="flex flex-wrap gap-3 pt-1" dir="rtl">
-                <span class="arabic-inline text-2xl sm:text-3xl px-4 py-1.5 bg-stone-50 border border-slate-200 rounded-xl text-[#065F46] font-bold">مَرَضٌ</span>
-                <span class="arabic-inline text-2xl sm:text-3xl px-4 py-1.5 bg-stone-50 border border-slate-200 rounded-xl text-[#065F46] font-bold">مُصْلِحُونَ</span>
-                <span class="arabic-inline text-2xl sm:text-3xl px-4 py-1.5 bg-stone-50 border border-slate-200 rounded-xl text-[#065F46] font-bold">السُّفَهَاءُ</span>
-                <span class="arabic-inline text-2xl sm:text-3xl px-4 py-1.5 bg-stone-50 border border-slate-200 rounded-xl text-[#065F46] font-bold">شَيَاطِينِهِمْ</span>
-                <span class="arabic-inline text-2xl sm:text-3xl px-4 py-1.5 bg-stone-50 border border-slate-200 rounded-xl text-[#065F46] font-bold">يَعْمَهُونَ</span>
+        <div class="bg-white border border-slate-200 rounded-2xl p-5 sm:p-9 shadow-sm space-y-5 sm:space-y-6">
+          <div class="flex items-start gap-3.5 sm:gap-4">
+            <span class="w-8 h-8 rounded-full bg-emerald-50 border border-emerald-200 text-[#065F46] font-bold flex items-center justify-center shrink-0 mt-0.5">১</span>
+            <div class="space-y-3 min-w-0">
+              <p class="text-lg sm:text-xl font-semibold text-slate-800">নিচের ৫টি আরবি শব্দের বাংলা অর্থ লেখো:</p>
+              <div class="flex flex-wrap gap-2.5 sm:gap-3 pt-1" dir="rtl">
+                <span class="arabic-inline text-xl sm:text-3xl px-3.5 sm:px-4 py-1.5 bg-stone-50 border border-slate-200 rounded-xl text-[#065F46] font-bold">مَرَضٌ</span>
+                <span class="arabic-inline text-xl sm:text-3xl px-3.5 sm:px-4 py-1.5 bg-stone-50 border border-slate-200 rounded-xl text-[#065F46] font-bold">مُصْلِحُونَ</span>
+                <span class="arabic-inline text-xl sm:text-3xl px-3.5 sm:px-4 py-1.5 bg-stone-50 border border-slate-200 rounded-xl text-[#065F46] font-bold">السُّفَهَاءُ</span>
+                <span class="arabic-inline text-xl sm:text-3xl px-3.5 sm:px-4 py-1.5 bg-stone-50 border border-slate-200 rounded-xl text-[#065F46] font-bold">شَيَاطِينِهِمْ</span>
+                <span class="arabic-inline text-xl sm:text-3xl px-3.5 sm:px-4 py-1.5 bg-stone-50 border border-slate-200 rounded-xl text-[#065F46] font-bold">يَعْمَهُونَ</span>
               </div>
             </div>
           </div>
 
           <div class="h-px bg-slate-100"></div>
 
-          <div class="flex items-start gap-4">
-            <span class="w-8 h-8 rounded-full bg-emerald-50 border border-emerald-200 text-[#065F46] font-bold flex items-center justify-center shrink-0 mt-1">২</span>
-            <p class="text-xl font-medium text-slate-800 leading-relaxed">
+          <div class="flex items-start gap-3.5 sm:gap-4">
+            <span class="w-8 h-8 rounded-full bg-emerald-50 border border-emerald-200 text-[#065F46] font-bold flex items-center justify-center shrink-0 mt-0.5">২</span>
+            <p class="text-lg sm:text-xl font-medium text-slate-800 leading-relaxed">
               মুনাফিকরা মুমিনদের সাথে দেখা হলে কী বলত এবং গোপনে তাদের নেতাদের কাছে গিয়ে কী বলত? (আয়াত ১৪ অনুযায়ী সংক্ষেপে লেখো)।
             </p>
           </div>
@@ -495,20 +523,20 @@
     </section>
 
     <!-- ==================== SLIDE 9: নির্বাচিত শব্দের তাহকীক বিশ্লেষণ ==================== -->
-    <section class="slide w-full h-full flex-col items-center justify-center p-6 lg:p-10 overflow-y-auto slide-scroll" data-title="তাহকীক বিশ্লেষণ">
-      <div class="max-w-5xl w-full space-y-6">
+    <section class="slide w-full h-full flex-col items-center p-4 sm:p-6 lg:p-10 overflow-y-auto slide-scroll" data-title="তাহকীক বিশ্লেষণ">
+      <div class="max-w-5xl w-full my-auto space-y-5 sm:space-y-6 py-2">
         <div class="border-b border-slate-200 pb-4">
           <span class="text-xs font-semibold uppercase tracking-widest text-[#B45309]">স্লাইড ০৯ • ব্যাকরণগত বিশ্লেষণ</span>
-          <h2 class="text-3xl font-bold text-slate-900 mt-1">নির্বাচিত শব্দের তাহকীক বিশ্লেষণ</h2>
-          <p class="text-sm text-slate-500 mt-1">বাম পাশের যেকোনো শব্দে ক্লিক করে তার পূর্ণাঙ্গ সিগাহ, বহস, বাব, মাদ্দাহ ও জিনস দেখুন</p>
+          <h2 class="text-2xl sm:text-3xl font-bold text-slate-900 mt-1">নির্বাচিত শব্দের তাহকীক বিশ্লেষণ</h2>
+          <p class="text-sm text-slate-500 mt-1">যেকোনো শব্দে ক্লিক করে তার পূর্ণাঙ্গ সিগাহ, বহস, বাব, মাদ্দাহ ও জিনস দেখুন</p>
         </div>
 
-        <div class="grid grid-cols-1 lg:grid-cols-12 gap-6 items-start">
+        <div class="grid grid-cols-1 lg:grid-cols-12 gap-5 sm:gap-6 items-start">
           <!-- Left: 9 Words Selector Grid -->
-          <div id="tahqiqWordList" class="lg:col-span-5 grid grid-cols-3 gap-3" dir="rtl"></div>
+          <div id="tahqiqWordList" class="lg:col-span-5 grid grid-cols-2 sm:grid-cols-3 gap-2.5 sm:gap-3" dir="rtl"></div>
 
           <!-- Right: Interactive Detail Tree View -->
-          <div id="tahqiqDetailCard" class="lg:col-span-7 bg-white border border-slate-200 rounded-2xl p-6 sm:p-8 shadow-sm">
+          <div id="tahqiqDetailCard" class="lg:col-span-7 bg-white border border-slate-200 rounded-2xl p-5 sm:p-8 shadow-sm">
             <!-- Populated by JS -->
           </div>
         </div>
@@ -516,36 +544,36 @@
     </section>
 
     <!-- ==================== SLIDE 10: জোড়ায় কাজ (৩ মিনিট টাইমার) ==================== -->
-    <section class="slide w-full h-full flex-col items-center justify-center p-6 lg:p-12 overflow-y-auto slide-scroll" data-title="জোড়ায় কাজ">
-      <div class="max-w-4xl w-full space-y-6">
+    <section class="slide w-full h-full flex-col items-center p-4 sm:p-6 lg:p-12 overflow-y-auto slide-scroll" data-title="জোড়ায় কাজ">
+      <div class="max-w-4xl w-full my-auto space-y-5 sm:space-y-6 py-2">
         <div class="flex flex-wrap items-center justify-between gap-4 border-b border-slate-200 pb-4">
           <div>
             <span class="text-xs font-semibold uppercase tracking-widest text-[#B45309]">স্লাইড ১০ • সহপাঠী আলোচনা</span>
-            <h2 class="text-3xl font-bold text-slate-900 mt-1">জোড়ায় কাজ</h2>
+            <h2 class="text-2xl sm:text-3xl font-bold text-slate-900 mt-1">জোড়ায় কাজ</h2>
           </div>
           <!-- Smart Timer Widget -->
-          <div class="timer-widget bg-white border border-slate-200 rounded-xl px-5 py-3 shadow-sm flex items-center gap-4" data-seconds="180">
-            <div class="text-2xl font-bold font-mono text-[#065F46] timer-display">০৩:০০</div>
-            <div class="flex items-center gap-1.5">
-              <button class="timer-start px-3 py-1.5 text-xs font-semibold rounded-lg bg-[#065F46] text-white hover:bg-emerald-900 transition-colors">শুরু</button>
-              <button class="timer-pause px-3 py-1.5 text-xs font-semibold rounded-lg bg-amber-50 text-[#B45309] border border-amber-200 hover:bg-amber-100 transition-colors">বিরতি</button>
-              <button class="timer-reset px-3 py-1.5 text-xs font-semibold rounded-lg bg-slate-100 text-slate-600 hover:bg-slate-200 transition-colors">রিসেট</button>
+          <div class="timer-widget bg-white border border-slate-200 rounded-xl px-4 py-2.5 shadow-sm flex flex-wrap items-center justify-between sm:justify-start gap-3 w-full sm:w-auto select-none" data-seconds="180">
+            <div class="text-2xl font-bold font-mono text-[#065F46] timer-display tabular-nums" aria-live="off">০৩:০০</div>
+            <div class="flex items-center gap-2">
+              <button type="button" class="timer-start min-h-[38px] px-3 py-1.5 text-xs font-semibold rounded-lg bg-[#065F46] text-white hover:bg-emerald-900 disabled:opacity-40 disabled:cursor-not-allowed transition-colors">শুরু</button>
+              <button type="button" class="timer-pause min-h-[38px] px-3 py-1.5 text-xs font-semibold rounded-lg bg-amber-50 text-[#B45309] border border-amber-200 hover:bg-amber-100 disabled:opacity-40 disabled:cursor-not-allowed transition-colors" disabled>বিরতি</button>
+              <button type="button" class="timer-reset min-h-[38px] px-3 py-1.5 text-xs font-semibold rounded-lg bg-slate-100 text-slate-600 hover:bg-slate-200 transition-colors">রিসেট</button>
             </div>
           </div>
         </div>
 
-        <div class="grid grid-cols-1 gap-5">
-          <div class="bg-white border border-slate-200 rounded-2xl p-7 shadow-sm">
+        <div class="grid grid-cols-1 gap-4 sm:gap-5">
+          <div class="bg-white border border-slate-200 rounded-2xl p-5 sm:p-7 shadow-sm">
             <span class="inline-block text-xs font-bold uppercase tracking-wider text-[#065F46] bg-emerald-50 px-3 py-1 rounded-full mb-3">কাজ ১</span>
-            <p class="text-xl text-slate-800 leading-relaxed">
+            <p class="text-lg sm:text-xl text-slate-800 leading-relaxed">
               মুনাফিকদের দৃষ্টিভঙ্গি এবং বাস্তব সত্যের মধ্যে পার্থক্য ছক আকারে লেখো (যেমন: তারা নিজেদের কী মনে করে বনাম আল্লাহ তাদের কী বলেছেন)।
             </p>
           </div>
 
-          <div class="bg-white border border-slate-200 rounded-2xl p-7 shadow-sm">
+          <div class="bg-white border border-slate-200 rounded-2xl p-5 sm:p-7 shadow-sm">
             <span class="inline-block text-xs font-bold uppercase tracking-wider text-[#B45309] bg-amber-50 px-3 py-1 rounded-full mb-3">কাজ ২</span>
-            <p class="text-xl text-slate-800 leading-relaxed">
-              <span class="arabic-inline text-2xl font-bold text-[#065F46] mx-1">إِنَّمَا نَحْنُ مُصْلِحُونَ</span> এবং <span class="arabic-inline text-2xl font-bold text-[#B45309] mx-1">أَلَا إِنَّهُمْ هُمُ الْمُفْسِدُونَ</span> বাক্য দুটির মধ্যে অর্থগত ও ভাবগত জোর কীভাবে প্রয়োগ করা হয়েছে তা আলোচনা করো।
+            <p class="text-lg sm:text-xl text-slate-800 leading-relaxed">
+              <span class="arabic-inline text-xl sm:text-2xl font-bold text-[#065F46] mx-1">إِنَّمَا نَحْنُ مُصْلِحُونَ</span> এবং <span class="arabic-inline text-xl sm:text-2xl font-bold text-[#B45309] mx-1">أَلَا إِنَّهُمْ هُمُ الْمُفْسِدُونَ</span> বাক্য দুটির মধ্যে অর্থগত ও ভাবগত জোর কীভাবে প্রয়োগ করা হয়েছে তা আলোচনা করো।
             </p>
           </div>
         </div>
@@ -553,20 +581,20 @@
     </section>
 
     <!-- ==================== SLIDE 11: দলগত কাজ (৫ মিনিট টাইমার) ==================== -->
-    <section class="slide w-full h-full flex-col items-center justify-center p-6 lg:p-12 overflow-y-auto slide-scroll" data-title="দলগত কাজ">
-      <div class="max-w-5xl w-full space-y-6">
+    <section class="slide w-full h-full flex-col items-center p-4 sm:p-6 lg:p-12 overflow-y-auto slide-scroll" data-title="দলগত কাজ">
+      <div class="max-w-5xl w-full my-auto space-y-5 sm:space-y-6 py-2">
         <div class="flex flex-wrap items-center justify-between gap-4 border-b border-slate-200 pb-4">
           <div>
             <span class="text-xs font-semibold uppercase tracking-widest text-[#B45309]">স্লাইড ১১ • সমন্বিত অনুশীলন</span>
-            <h2 class="text-3xl font-bold text-slate-900 mt-1">দলগত কাজ</h2>
+            <h2 class="text-2xl sm:text-3xl font-bold text-slate-900 mt-1">দলগত কাজ</h2>
           </div>
           <!-- Smart Timer Widget -->
-          <div class="timer-widget bg-white border border-slate-200 rounded-xl px-5 py-3 shadow-sm flex items-center gap-4" data-seconds="300">
-            <div class="text-2xl font-bold font-mono text-[#065F46] timer-display">০৫:০০</div>
-            <div class="flex items-center gap-1.5">
-              <button class="timer-start px-3 py-1.5 text-xs font-semibold rounded-lg bg-[#065F46] text-white hover:bg-emerald-900 transition-colors">শুরু</button>
-              <button class="timer-pause px-3 py-1.5 text-xs font-semibold rounded-lg bg-amber-50 text-[#B45309] border border-amber-200 hover:bg-amber-100 transition-colors">বিরতি</button>
-              <button class="timer-reset px-3 py-1.5 text-xs font-semibold rounded-lg bg-slate-100 text-slate-600 hover:bg-slate-200 transition-colors">রিসেট</button>
+          <div class="timer-widget bg-white border border-slate-200 rounded-xl px-4 py-2.5 shadow-sm flex flex-wrap items-center justify-between sm:justify-start gap-3 w-full sm:w-auto select-none" data-seconds="300">
+            <div class="text-2xl font-bold font-mono text-[#065F46] timer-display tabular-nums" aria-live="off">০৫:০০</div>
+            <div class="flex items-center gap-2">
+              <button type="button" class="timer-start min-h-[38px] px-3 py-1.5 text-xs font-semibold rounded-lg bg-[#065F46] text-white hover:bg-emerald-900 disabled:opacity-40 disabled:cursor-not-allowed transition-colors">শুরু</button>
+              <button type="button" class="timer-pause min-h-[38px] px-3 py-1.5 text-xs font-semibold rounded-lg bg-amber-50 text-[#B45309] border border-amber-200 hover:bg-amber-100 disabled:opacity-40 disabled:cursor-not-allowed transition-colors" disabled>বিরতি</button>
+              <button type="button" class="timer-reset min-h-[38px] px-3 py-1.5 text-xs font-semibold rounded-lg bg-slate-100 text-slate-600 hover:bg-slate-200 transition-colors">রিসেট</button>
             </div>
           </div>
         </div>
@@ -600,29 +628,29 @@
     </section>
 
     <!-- ==================== SLIDE 12: মূল্যায়ন কুইজ ==================== -->
-    <section class="slide w-full h-full flex-col items-center p-6 lg:p-10 overflow-y-auto slide-scroll" data-title="মূল্যায়ন কুইজ">
-      <div class="max-w-4xl w-full space-y-6 pb-8">
+    <section class="slide w-full h-full flex-col items-center p-4 sm:p-6 lg:p-10 overflow-y-auto slide-scroll" data-title="মূল্যায়ন কুইজ">
+      <div class="max-w-4xl w-full space-y-5 sm:space-y-6 pb-8">
         <div class="flex flex-wrap items-center justify-between gap-4 border-b border-slate-200 pb-4">
           <div>
             <span class="text-xs font-semibold uppercase tracking-widest text-[#B45309]">স্লাইড ১২ • শ্রেণি মূল্যায়ন</span>
-            <h2 class="text-3xl font-bold text-slate-900 mt-1">মূল্যায়ন কুইজ</h2>
+            <h2 class="text-2xl sm:text-3xl font-bold text-slate-900 mt-1">মূল্যায়ন কুইজ</h2>
           </div>
-          <div class="flex items-center gap-3">
-            <div id="quizScoreBadge" class="px-4 py-1.5 rounded-full bg-emerald-50 border border-emerald-200 text-[#065F46] text-sm font-bold">
+          <div class="flex flex-wrap items-center gap-2.5 sm:gap-3">
+            <div id="quizScoreBadge" class="px-4 py-2 rounded-full bg-emerald-50 border border-emerald-200 text-[#065F46] text-sm font-bold">
               স্কোর: ০ / ৫
             </div>
-            <button id="resetQuizBtn" class="px-4 py-1.5 rounded-lg border border-slate-200 bg-white hover:bg-slate-50 text-xs font-semibold text-slate-700 transition-colors">
+            <button id="resetQuizBtn" type="button" class="min-h-[40px] px-4 py-1.5 rounded-lg border border-slate-200 bg-white hover:bg-slate-50 text-xs font-semibold text-slate-700 transition-colors">
               পুনরায় চেষ্টা করুন
             </button>
           </div>
         </div>
 
-        <div id="quizContainer" class="space-y-5"></div>
+        <div id="quizContainer" class="space-y-4 sm:space-y-5"></div>
 
         <div id="quizSummaryBox" class="hidden bg-[#065F46] text-white rounded-2xl p-6 text-center space-y-2 shadow-sm">
           <p class="text-sm uppercase tracking-widest text-emerald-200 font-semibold">মূল্যায়ন সম্পন্ন</p>
           <p id="quizSummaryText" class="text-2xl font-bold"></p>
-          <button onclick="resetQuiz()" class="mt-3 px-5 py-2 rounded-lg bg-white text-[#065F46] text-sm font-bold hover:bg-emerald-50 transition-colors">
+          <button type="button" onclick="resetQuiz()" class="mt-3 min-h-[40px] px-5 py-2 rounded-lg bg-white text-[#065F46] text-sm font-bold hover:bg-emerald-50 transition-colors">
             পুনরায় চেষ্টা করুন
           </button>
         </div>
@@ -630,11 +658,11 @@
     </section>
 
     <!-- ==================== SLIDE 13: বাস্তব আমল, বাড়ির কাজ ও সমাপ্তি ==================== -->
-    <section class="slide w-full h-full flex-col items-center justify-center p-6 lg:p-10 overflow-y-auto slide-scroll" data-title="বাস্তব আমল, বাড়ির কাজ ও সমাপ্তি">
-      <div class="max-w-5xl w-full space-y-6">
+    <section class="slide w-full h-full flex-col items-center p-4 sm:p-6 lg:p-10 overflow-y-auto slide-scroll" data-title="বাস্তব আমল, বাড়ির কাজ ও সমাপ্তি">
+      <div class="max-w-5xl w-full my-auto space-y-5 sm:space-y-6 py-2">
         <div class="border-b border-slate-200 pb-3">
           <span class="text-xs font-semibold uppercase tracking-widest text-[#B45309]">স্লাইড ১৩</span>
-          <h2 class="text-3xl font-bold text-slate-900 mt-1">বাস্তব আমল, বাড়ির কাজ ও সমাপ্তি</h2>
+          <h2 class="text-2xl sm:text-3xl font-bold text-slate-900 mt-1">বাস্তব আমল, বাড়ির কাজ ও সমাপ্তি</h2>
         </div>
 
         <div class="grid grid-cols-1 md:grid-cols-2 gap-5">
@@ -679,53 +707,53 @@
   </main>
 
   <!-- Bottom Minimal Navigation Bar & Progress -->
-  <footer class="h-14 bg-white border-t border-slate-200/80 px-6 lg:px-10 flex items-center justify-between shrink-0 relative z-30">
+  <footer class="min-h-14 bg-white border-t border-slate-200/80 px-3 sm:px-6 lg:px-10 pt-2 pb-[calc(0.5rem+env(safe-area-inset-bottom))] flex items-center justify-between gap-2 shrink-0 relative z-30 select-none">
     <!-- Minimal Progress Bar -->
     <div class="absolute top-0 left-0 right-0 h-0.5 bg-slate-100">
       <div id="progressBar" class="h-full bg-[#065F46] transition-all duration-300" style="width: 7.69%;"></div>
     </div>
 
-    <div class="flex items-center gap-3">
-      <span id="slideCounter" class="text-sm font-bold text-[#065F46] tabular-nums">০১ / ১৩</span>
-      <span class="text-slate-300">|</span>
-      <span id="currentSlideTitle" class="text-sm font-medium text-slate-600 truncate max-w-[180px] sm:max-w-xs">শিক্ষক পরিচিতি</span>
+    <div class="flex items-center gap-2 sm:gap-3 min-w-0">
+      <span id="slideCounter" class="text-xs sm:text-sm font-bold text-[#065F46] tabular-nums shrink-0">০১ / ১৩</span>
+      <span class="text-slate-300 shrink-0" aria-hidden="true">|</span>
+      <span id="currentSlideTitle" class="text-xs sm:text-sm font-medium text-slate-600 truncate">শিক্ষক পরিচিতি</span>
     </div>
 
-    <div class="flex items-center gap-2">
-      <button id="prevSlideBtn" class="flex items-center gap-1 px-3.5 py-1.5 rounded-lg border border-slate-200 bg-white hover:bg-slate-50 text-sm font-semibold text-slate-700 disabled:opacity-40 disabled:cursor-not-allowed transition-colors">
-        <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M15 19l-7-7 7-7"/></svg>
+    <div class="flex items-center gap-2 shrink-0">
+      <button id="prevSlideBtn" type="button" class="flex items-center gap-1 min-h-[40px] px-3 sm:px-3.5 py-1.5 rounded-lg border border-slate-200 bg-white hover:bg-slate-50 text-xs sm:text-sm font-semibold text-slate-700 disabled:opacity-40 disabled:cursor-not-allowed transition-colors">
+        <svg class="w-4 h-4 shrink-0" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M15 19l-7-7 7-7"/></svg>
         <span>পূর্ববর্তী</span>
       </button>
-      <button id="nextSlideBtn" class="flex items-center gap-1 px-3.5 py-1.5 rounded-lg bg-[#065F46] hover:bg-emerald-900 text-white text-sm font-semibold disabled:opacity-40 disabled:cursor-not-allowed transition-colors">
+      <button id="nextSlideBtn" type="button" class="flex items-center gap-1 min-h-[40px] px-3 sm:px-3.5 py-1.5 rounded-lg bg-[#065F46] hover:bg-emerald-900 text-white text-xs sm:text-sm font-semibold disabled:opacity-40 disabled:cursor-not-allowed transition-colors">
         <span>পরবর্তী</span>
-        <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M9 5l7 7-7 7"/></svg>
+        <svg class="w-4 h-4 shrink-0" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M9 5l7 7-7 7"/></svg>
       </button>
     </div>
   </footer>
 
   <!-- Quick Slide Jump Drawer -->
-  <div id="slideMenuOverlay" class="fixed inset-0 bg-slate-900/30 backdrop-blur-[1px] z-40 hidden">
-    <div class="absolute right-0 top-0 bottom-0 w-80 max-w-full bg-white border-l border-slate-200 shadow-xl flex flex-col">
-      <div class="p-4 border-b border-slate-200 flex items-center justify-between">
+  <div id="slideMenuOverlay" class="fixed inset-0 bg-slate-900/30 backdrop-blur-[1px] z-40 hidden" role="dialog" aria-modal="true" aria-label="স্লাইড তালিকা">
+    <div class="absolute right-0 top-0 bottom-0 w-80 max-w-[85vw] bg-white border-l border-slate-200 shadow-xl flex flex-col">
+      <div class="p-4 border-b border-slate-200 flex items-center justify-between shrink-0">
         <h3 class="text-base font-bold text-slate-800">স্লাইড তালিকা (১৩টি)</h3>
-        <button id="closeMenuBtn" class="p-1.5 rounded-lg hover:bg-slate-100 text-slate-500">
-          <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12"/></svg>
+        <button id="closeMenuBtn" type="button" aria-label="স্লাইড তালিকা বন্ধ করুন" class="min-h-[40px] min-w-[40px] flex items-center justify-center rounded-lg hover:bg-slate-100 text-slate-500">
+          <svg class="w-5 h-5" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12"/></svg>
         </button>
       </div>
-      <div id="slideMenuList" class="flex-1 overflow-y-auto p-3 space-y-1 slide-scroll"></div>
+      <div id="slideMenuList" class="flex-1 min-h-0 overflow-y-auto p-3 space-y-1 slide-scroll"></div>
     </div>
   </div>
 
   <!-- Word Analysis Modal (Slide 6) -->
-  <div id="wordModal" class="fixed inset-0 bg-slate-900/40 backdrop-blur-[2px] z-50 hidden items-center justify-center p-4">
-    <div class="bg-white border border-slate-200 rounded-2xl max-w-lg w-full shadow-xl overflow-hidden">
-      <div class="px-6 py-4 bg-stone-50 border-b border-slate-200 flex items-center justify-between">
+  <div id="wordModal" class="fixed inset-0 bg-slate-900/40 backdrop-blur-[2px] z-50 hidden items-center justify-center p-3 sm:p-4" role="dialog" aria-modal="true" aria-label="শব্দ ও তাহকীক বিশ্লেষণ">
+    <div class="bg-white border border-slate-200 rounded-2xl max-w-lg w-full max-h-[90dvh] flex flex-col shadow-xl overflow-hidden">
+      <div class="px-5 sm:px-6 py-3.5 sm:py-4 bg-stone-50 border-b border-slate-200 flex items-center justify-between shrink-0">
         <span class="text-xs font-bold uppercase tracking-wider text-[#B45309]">শব্দ ও তাহকীক বিশ্লেষণ</span>
-        <button id="closeWordModalBtn" class="p-1.5 rounded-lg hover:bg-slate-200/60 text-slate-500">
-          <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12"/></svg>
+        <button id="closeWordModalBtn" type="button" aria-label="মোডাল বন্ধ করুন" class="min-h-[40px] min-w-[40px] flex items-center justify-center rounded-lg hover:bg-slate-200/60 text-slate-500">
+          <svg class="w-5 h-5" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12"/></svg>
         </button>
       </div>
-      <div id="wordModalBody" class="p-6 space-y-5"></div>
+      <div id="wordModalBody" class="p-4 sm:p-6 space-y-4 sm:space-y-5 overflow-y-auto slide-scroll"></div>
     </div>
   </div>
 
@@ -1009,7 +1037,7 @@
         btn.innerHTML = `<span class="text-xs font-bold w-6 text-slate-400">${toBn(String(idx + 1).padStart(2, '0'))}</span><span>${title}</span>`;
         btn.onclick = () => {
           goToSlide(idx);
-          slideMenuOverlay.classList.add('hidden');
+          closeSlideMenu();
         };
         slideMenuList.appendChild(btn);
       });
@@ -1040,24 +1068,62 @@
       // Ignore if modal is open and Escape is pressed
       if (e.key === 'Escape') {
         closeWordModal();
-        slideMenuOverlay.classList.add('hidden');
+        closeSlideMenu();
         return;
       }
       if (!document.getElementById('wordModal').classList.contains('hidden')) return;
+      if (!slideMenuOverlay.classList.contains('hidden')) return;
       if (e.key === 'ArrowRight') goToSlide(currentSlide + 1);
       if (e.key === 'ArrowLeft') goToSlide(currentSlide - 1);
     });
 
     // Menu Toggle
-    document.getElementById('menuToggleBtn').addEventListener('click', () => {
+    const menuToggleBtn = document.getElementById('menuToggleBtn');
+    const closeMenuBtn = document.getElementById('closeMenuBtn');
+
+    function openSlideMenu() {
       slideMenuOverlay.classList.remove('hidden');
-    });
-    document.getElementById('closeMenuBtn').addEventListener('click', () => {
+      menuToggleBtn.setAttribute('aria-expanded', 'true');
+      closeMenuBtn.focus();
+    }
+
+    function closeSlideMenu() {
+      if (slideMenuOverlay.classList.contains('hidden')) return;
       slideMenuOverlay.classList.add('hidden');
-    });
+      menuToggleBtn.setAttribute('aria-expanded', 'false');
+      menuToggleBtn.focus();
+    }
+
+    menuToggleBtn.addEventListener('click', openSlideMenu);
+    closeMenuBtn.addEventListener('click', closeSlideMenu);
     slideMenuOverlay.addEventListener('click', (e) => {
-      if (e.target === slideMenuOverlay) slideMenuOverlay.classList.add('hidden');
+      if (e.target === slideMenuOverlay) closeSlideMenu();
     });
+
+    // Touch Swipe Navigation for Mobile/Tablet
+    const presentationStage = document.getElementById('presentationStage');
+    let touchStartX = 0;
+    let touchStartY = 0;
+    let touchTracking = false;
+
+    presentationStage.addEventListener('touchstart', (e) => {
+      if (e.touches.length !== 1) return;
+      if (!slideMenuOverlay.classList.contains('hidden') || !wordModal.classList.contains('hidden')) return;
+      touchStartX = e.touches[0].clientX;
+      touchStartY = e.touches[0].clientY;
+      touchTracking = true;
+    }, { passive: true });
+
+    presentationStage.addEventListener('touchend', (e) => {
+      if (!touchTracking || e.changedTouches.length !== 1) return;
+      touchTracking = false;
+      const dx = e.changedTouches[0].clientX - touchStartX;
+      const dy = e.changedTouches[0].clientY - touchStartY;
+      if (Math.abs(dx) > 65 && Math.abs(dx) > Math.abs(dy) * 1.6) {
+        if (dx < 0) goToSlide(currentSlide + 1);
+        else goToSlide(currentSlide - 1);
+      }
+    }, { passive: true });
 
     // Fullscreen Toggle
     const fullscreenBtn = document.getElementById('fullscreenBtn');
@@ -1065,37 +1131,62 @@
     const fsIconExit = document.getElementById('fsIconExit');
     const fsLabel = document.getElementById('fsLabel');
 
+    const supportsFullscreen = Boolean(
+      document.fullscreenEnabled || document.webkitFullscreenEnabled
+    );
+    if (!supportsFullscreen) {
+      fullscreenBtn.classList.add('hidden');
+    }
+
     fullscreenBtn.addEventListener('click', () => {
-      if (!document.fullscreenElement) {
-        document.documentElement.requestFullscreen().catch(() => {});
+      const fsEl = document.fullscreenElement || document.webkitFullscreenElement;
+      if (!fsEl) {
+        const req = document.documentElement.requestFullscreen || document.documentElement.webkitRequestFullscreen;
+        if (req) Promise.resolve(req.call(document.documentElement)).catch(() => {});
       } else {
-        document.exitFullscreen().catch(() => {});
+        const exit = document.exitFullscreen || document.webkitExitFullscreen;
+        if (exit) Promise.resolve(exit.call(document)).catch(() => {});
       }
     });
 
-    document.addEventListener('fullscreenchange', () => {
-      const isFs = Boolean(document.fullscreenElement);
+    function syncFullscreenUI() {
+      const isFs = Boolean(document.fullscreenElement || document.webkitFullscreenElement);
       fsIconEnter.classList.toggle('hidden', isFs);
       fsIconExit.classList.toggle('hidden', !isFs);
       fsLabel.textContent = isFs ? 'প্রস্থান' : 'ফুল-স্ক্রিন';
-    });
+    }
+
+    document.addEventListener('fullscreenchange', syncFullscreenUI);
+    document.addEventListener('webkitfullscreenchange', syncFullscreenUI);
 
     // ==================== SLIDE 3: PRIOR KNOWLEDGE CARDS ====================
+    const toggleAllPriorBtn = document.getElementById('toggleAllPriorBtn');
+
+    function syncPriorAllState() {
+      const cards = Array.from(document.querySelectorAll('.prior-card'));
+      allPriorShown = cards.every(c => !c.querySelector('.prior-answer').classList.contains('hidden'));
+      toggleAllPriorBtn.textContent = allPriorShown ? 'সব উত্তর লুকান' : 'সব উত্তর দেখুন';
+    }
+
     function togglePriorCard(cardEl) {
       const ans = cardEl.querySelector('.prior-answer');
       const hint = cardEl.querySelector('.toggle-hint');
       const isHidden = ans.classList.contains('hidden');
       ans.classList.toggle('hidden', !isHidden);
+      cardEl.setAttribute('aria-expanded', String(isHidden));
       hint.textContent = isHidden ? 'লুকান' : 'ক্লিক করুন';
+      syncPriorAllState();
     }
 
     let allPriorShown = false;
-    document.getElementById('toggleAllPriorBtn').addEventListener('click', () => {
+    toggleAllPriorBtn.addEventListener('click', () => {
       allPriorShown = !allPriorShown;
       document.querySelectorAll('.prior-card').forEach(card => {
         card.querySelector('.prior-answer').classList.toggle('hidden', !allPriorShown);
+        card.setAttribute('aria-expanded', String(allPriorShown));
         card.querySelector('.toggle-hint').textContent = allPriorShown ? 'লুকান' : 'ক্লিক করুন';
       });
+      toggleAllPriorBtn.textContent = allPriorShown ? 'সব উত্তর লুকান' : 'সব উত্তর দেখুন';
     });
 
     // ==================== SLIDE 6: AUDIO & CLICKABLE WORDS ====================
@@ -1117,14 +1208,14 @@
           if (!tok.key) {
             return `<span class="mx-1 text-[#B45309]">${tok.text}</span>`;
           }
-          return `<span class="word-token" onclick="openWordModal('${tok.key}')">${tok.text}</span>`;
+          return `<button type="button" class="word-token" onclick="openWordModal('${tok.key}')">${tok.text}</button>`;
         }).join(' ');
 
         card.innerHTML = `
-          <div class="flex items-center justify-between gap-3 mb-3">
+          <div class="flex flex-wrap items-center justify-between gap-2 sm:gap-3 mb-3">
             <span class="text-xs font-bold px-2.5 py-1 rounded-full bg-stone-100 text-slate-600">আয়াত ${toBn(ayah.num)}</span>
-            <button id="play-btn-${idx}" onclick="togglePlayAyah(${idx})" class="flex items-center gap-1.5 px-3.5 py-1.5 rounded-lg border border-emerald-200 bg-emerald-50 hover:bg-emerald-100 text-[#065F46] text-xs font-semibold transition-colors">
-              <svg class="w-3.5 h-3.5 play-icon" fill="currentColor" viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>
+            <button id="play-btn-${idx}" type="button" onclick="togglePlayAyah(${idx})" class="flex items-center gap-1.5 min-h-[38px] px-3.5 py-1.5 rounded-lg border border-emerald-200 bg-emerald-50 hover:bg-emerald-100 text-[#065F46] text-xs font-semibold transition-colors">
+              <svg class="w-3.5 h-3.5 play-icon shrink-0" aria-hidden="true" fill="currentColor" viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>
               <span class="play-label">তিলাওয়াত শুনুন</span>
             </button>
           </div>
@@ -1232,9 +1323,11 @@
         currentSpeed = parseFloat(btn.dataset.speed);
         currentAudio.playbackRate = currentSpeed;
         document.querySelectorAll('.speed-btn').forEach(b => {
-          b.className = 'speed-btn px-2.5 py-1 text-xs font-semibold rounded-md text-slate-600 hover:text-slate-900';
+          b.className = 'speed-btn min-h-[32px] px-2.5 py-1 text-xs font-semibold rounded-md text-slate-600 hover:text-slate-900';
+          b.setAttribute('aria-pressed', 'false');
         });
-        btn.className = 'speed-btn px-2.5 py-1 text-xs font-semibold rounded-md bg-white text-[#065F46] shadow-sm';
+        btn.className = 'speed-btn min-h-[32px] px-2.5 py-1 text-xs font-semibold rounded-md bg-white text-[#065F46] shadow-sm';
+        btn.setAttribute('aria-pressed', 'true');
       });
     });
 
@@ -1250,18 +1343,22 @@
     // Word Modal Logic
     const wordModal = document.getElementById('wordModal');
     const wordModalBody = document.getElementById('wordModalBody');
+    const closeWordModalBtn = document.getElementById('closeWordModalBtn');
+    let lastFocusedBeforeModal = null;
 
     function openWordModal(key) {
       const data = WORD_DICTIONARY[key];
       if (!data) return;
 
+      lastFocusedBeforeModal = document.activeElement;
+
       wordModalBody.innerHTML = `
         <div class="text-center pb-4 border-b border-slate-100">
           <div class="arabic-text text-4xl sm:text-5xl font-bold text-[#065F46]">${data.word}</div>
-          <p class="text-xl font-bold text-slate-800 mt-1">${data.meaning}</p>
+          <p class="text-lg sm:text-xl font-bold text-slate-800 mt-1">${data.meaning}</p>
         </div>
 
-        <div class="grid grid-cols-2 gap-3">
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
           <div class="bg-stone-50 border border-slate-200/80 rounded-xl p-3 text-center">
             <p class="text-xs font-semibold text-slate-500 mb-1">সমার্থক (مرادف)</p>
             <p class="arabic-inline text-xl font-bold text-slate-800">${data.synonym}</p>
@@ -1274,23 +1371,23 @@
 
         <div class="bg-white border border-slate-200 rounded-xl divide-y divide-slate-100 text-sm">
           <div class="px-4 py-2.5 flex items-center justify-between gap-4">
-            <span class="font-semibold text-slate-500">সিগাহ (صيغة)</span>
+            <span class="font-semibold text-slate-500 shrink-0">সিগাহ (صيغة)</span>
             <span class="font-bold text-slate-800 text-right">${data.sigah}</span>
           </div>
           <div class="px-4 py-2.5 flex items-center justify-between gap-4">
-            <span class="font-semibold text-slate-500">বহস (بحث)</span>
+            <span class="font-semibold text-slate-500 shrink-0">বহস (بحث)</span>
             <span class="font-bold text-slate-800 text-right">${data.bahas}</span>
           </div>
           <div class="px-4 py-2.5 flex items-center justify-between gap-4">
-            <span class="font-semibold text-slate-500">বাব (باب)</span>
+            <span class="font-semibold text-slate-500 shrink-0">বাব (باب)</span>
             <span class="font-bold text-[#065F46] text-right">${data.bab}</span>
           </div>
           <div class="px-4 py-2.5 flex items-center justify-between gap-4">
-            <span class="font-semibold text-slate-500">মাদ্দাহ (مادة)</span>
+            <span class="font-semibold text-slate-500 shrink-0">মাদ্দাহ (مادة)</span>
             <span class="arabic-inline text-lg font-bold text-[#B45309] text-right">${data.maddah}</span>
           </div>
           <div class="px-4 py-2.5 flex items-center justify-between gap-4">
-            <span class="font-semibold text-slate-500">জিনস (جنس)</span>
+            <span class="font-semibold text-slate-500 shrink-0">জিনস (جنس)</span>
             <span class="font-bold text-slate-800 text-right">${data.jins}</span>
           </div>
         </div>
@@ -1298,39 +1395,67 @@
 
       wordModal.classList.remove('hidden');
       wordModal.classList.add('flex');
+      wordModalBody.scrollTop = 0;
+      closeWordModalBtn.focus();
     }
 
     function closeWordModal() {
+      if (wordModal.classList.contains('hidden')) return;
       wordModal.classList.add('hidden');
       wordModal.classList.remove('flex');
+      if (lastFocusedBeforeModal && typeof lastFocusedBeforeModal.focus === 'function') {
+        lastFocusedBeforeModal.focus();
+      }
+      lastFocusedBeforeModal = null;
     }
 
-    document.getElementById('closeWordModalBtn').addEventListener('click', closeWordModal);
+    closeWordModalBtn.addEventListener('click', closeWordModal);
     wordModal.addEventListener('click', (e) => {
       if (e.target === wordModal) closeWordModal();
     });
 
     // ==================== SLIDE 7: FLASHCARDS ====================
     const flashcardsGrid = document.getElementById('flashcardsGrid');
+    const flipAllCardsBtn = document.getElementById('flipAllCardsBtn');
     let allFlipped = false;
+
+    function syncFlipAllState() {
+      const cards = Array.from(document.querySelectorAll('.flip-card'));
+      allFlipped = cards.length > 0 && cards.every(c => c.classList.contains('flipped'));
+      flipAllCardsBtn.textContent = allFlipped ? 'সব কার্ড আগের অবস্থায় ফিরান' : 'সব কার্ড উল্টে দেখুন';
+    }
 
     function renderFlashcards() {
       flashcardsGrid.innerHTML = '';
       FLASHCARDS.forEach((item) => {
         const card = document.createElement('div');
-        card.className = 'flip-card h-40';
-        card.onclick = () => card.classList.toggle('flipped');
+        card.className = 'flip-card h-44 select-none rounded-2xl';
+        card.setAttribute('role', 'button');
+        card.setAttribute('tabindex', '0');
+        card.setAttribute('aria-pressed', 'false');
+        const toggleFlip = () => {
+          const flipped = card.classList.toggle('flipped');
+          card.setAttribute('aria-pressed', String(flipped));
+          syncFlipAllState();
+        };
+        card.onclick = toggleFlip;
+        card.onkeydown = (e) => {
+          if (e.key === 'Enter' || e.key === ' ') {
+            e.preventDefault();
+            toggleFlip();
+          }
+        };
         card.innerHTML = `
           <div class="flip-card-inner">
-            <div class="flip-card-front bg-white border border-slate-200 rounded-2xl p-5 shadow-sm flex flex-col items-center justify-center text-center hover:border-[#065F46] transition-colors">
+            <div class="flip-card-front bg-white border border-slate-200 rounded-2xl p-4 sm:p-5 shadow-sm flex flex-col items-center justify-center text-center hover:border-[#065F46] transition-colors">
               <span class="arabic-inline text-3xl sm:text-4xl font-bold text-[#065F46]">${item.ar}</span>
-              <span class="text-[11px] text-slate-400 mt-2">অর্থ দেখতে ক্লিক করুন</span>
+              <span class="text-xs text-slate-400 mt-2">অর্থ দেখতে ক্লিক করুন</span>
             </div>
-            <div class="flip-card-back bg-[#065F46] text-white rounded-2xl p-5 shadow-sm flex flex-col items-center justify-center text-center">
-              <p class="text-base sm:text-lg font-bold leading-snug">${item.bn}</p>
-              <div class="mt-3 pt-2 border-t border-emerald-700/80 w-full">
+            <div class="flip-card-back bg-[#065F46] text-white rounded-2xl p-4 sm:p-5 shadow-sm flex flex-col items-center justify-center text-center">
+              <p class="text-sm sm:text-base font-bold leading-snug">${item.bn}</p>
+              <div class="mt-2.5 pt-2 border-t border-emerald-700/80 w-full">
                 <span class="text-xs text-emerald-200">মাদ্দাহ: </span>
-                <span class="arabic-inline text-lg font-bold text-amber-200">${item.maddah}</span>
+                <span class="arabic-inline text-base sm:text-lg font-bold text-amber-200">${item.maddah}</span>
               </div>
             </div>
           </div>
@@ -1339,9 +1464,13 @@
       });
     }
 
-    document.getElementById('flipAllCardsBtn').addEventListener('click', () => {
+    flipAllCardsBtn.addEventListener('click', () => {
       allFlipped = !allFlipped;
-      document.querySelectorAll('.flip-card').forEach(c => c.classList.toggle('flipped', allFlipped));
+      document.querySelectorAll('.flip-card').forEach(c => {
+        c.classList.toggle('flipped', allFlipped);
+        c.setAttribute('aria-pressed', String(allFlipped));
+      });
+      flipAllCardsBtn.textContent = allFlipped ? 'সব কার্ড আগের অবস্থায় ফিরান' : 'সব কার্ড উল্টে দেখুন';
     });
 
     // ==================== SLIDE 9: TAHQIQ INTERACTIVE VIEW ====================
@@ -1349,12 +1478,14 @@
     const tahqiqDetailCard = document.getElementById('tahqiqDetailCard');
     let activeTahqiqIndex = 0;
 
-    function renderTahqiq() {
+    function renderTahqiq(scrollOnMobile = false) {
       tahqiqWordList.innerHTML = '';
       TAHQIQ_WORDS.forEach((item, idx) => {
         const btn = document.createElement('button');
+        btn.type = 'button';
         const isActive = idx === activeTahqiqIndex;
-        btn.className = `arabic-inline text-xl sm:text-2xl font-bold py-4 px-2 rounded-xl border transition-all text-center ${
+        btn.setAttribute('aria-pressed', String(isActive));
+        btn.className = `arabic-inline text-lg sm:text-2xl font-bold py-3 sm:py-4 px-2 min-h-[52px] rounded-xl border transition-all text-center ${
           isActive
             ? 'bg-[#065F46] text-white border-[#065F46] shadow-sm'
             : 'bg-white text-slate-800 border-slate-200 hover:border-[#065F46] hover:text-[#065F46]'
@@ -1362,44 +1493,48 @@
         btn.textContent = item.word;
         btn.onclick = () => {
           activeTahqiqIndex = idx;
-          renderTahqiq();
+          renderTahqiq(true);
         };
         tahqiqWordList.appendChild(btn);
       });
 
       const current = TAHQIQ_WORDS[activeTahqiqIndex];
       tahqiqDetailCard.innerHTML = `
-        <div class="flex flex-wrap items-center justify-between gap-4 border-b border-slate-100 pb-5 mb-5">
-          <div>
+        <div class="flex flex-wrap items-center justify-between gap-3 sm:gap-4 border-b border-slate-100 pb-4 sm:pb-5 mb-4 sm:mb-5">
+          <div class="min-w-0">
             <span class="text-xs font-semibold uppercase tracking-wider text-[#B45309]">নির্বাচিত শব্দের তাহকীক</span>
-            <p class="text-xl font-bold text-slate-800 mt-1">${current.meaning}</p>
+            <p class="text-lg sm:text-xl font-bold text-slate-800 mt-1">${current.meaning}</p>
           </div>
-          <div class="arabic-inline text-4xl sm:text-5xl font-bold text-[#065F46]">${current.word}</div>
+          <div class="arabic-inline text-3xl sm:text-5xl font-bold text-[#065F46]">${current.word}</div>
         </div>
 
-        <div class="grid grid-cols-1 sm:grid-cols-2 gap-3.5">
-          <div class="bg-stone-50 border border-slate-200/80 rounded-xl p-4">
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 sm:gap-3.5">
+          <div class="bg-stone-50 border border-slate-200/80 rounded-xl p-3.5 sm:p-4">
             <p class="text-xs font-semibold text-slate-500">সিগাহ (صيغة)</p>
-            <p class="arabic-inline text-xl font-bold text-slate-900 mt-1">${current.sigah}</p>
+            <p class="arabic-inline text-lg sm:text-xl font-bold text-slate-900 mt-1">${current.sigah}</p>
           </div>
-          <div class="bg-stone-50 border border-slate-200/80 rounded-xl p-4">
+          <div class="bg-stone-50 border border-slate-200/80 rounded-xl p-3.5 sm:p-4">
             <p class="text-xs font-semibold text-slate-500">বহস (بحث)</p>
-            <p class="arabic-inline text-xl font-bold text-slate-900 mt-1">${current.bahas}</p>
+            <p class="arabic-inline text-lg sm:text-xl font-bold text-slate-900 mt-1">${current.bahas}</p>
           </div>
-          <div class="bg-stone-50 border border-slate-200/80 rounded-xl p-4">
+          <div class="bg-stone-50 border border-slate-200/80 rounded-xl p-3.5 sm:p-4">
             <p class="text-xs font-semibold text-slate-500">বাব (باب)</p>
-            <p class="arabic-inline text-xl font-bold text-[#065F46] mt-1">${current.bab}</p>
+            <p class="arabic-inline text-lg sm:text-xl font-bold text-[#065F46] mt-1">${current.bab}</p>
           </div>
-          <div class="bg-stone-50 border border-slate-200/80 rounded-xl p-4">
+          <div class="bg-stone-50 border border-slate-200/80 rounded-xl p-3.5 sm:p-4">
             <p class="text-xs font-semibold text-slate-500">মাদ্দাহ (مادة)</p>
-            <p class="arabic-inline text-2xl font-bold text-[#B45309] mt-1">${current.maddah}</p>
+            <p class="arabic-inline text-xl sm:text-2xl font-bold text-[#B45309] mt-1">${current.maddah}</p>
           </div>
-          <div class="sm:col-span-2 bg-emerald-50/50 border border-emerald-200/70 rounded-xl p-4 flex items-center justify-between">
+          <div class="sm:col-span-2 bg-emerald-50/50 border border-emerald-200/70 rounded-xl p-3.5 sm:p-4 flex items-center justify-between gap-3">
             <span class="text-sm font-semibold text-[#065F46]">জিনস (جنس)</span>
-            <span class="arabic-inline text-xl font-bold text-[#065F46]">${current.jins}</span>
+            <span class="arabic-inline text-lg sm:text-xl font-bold text-[#065F46]">${current.jins}</span>
           </div>
         </div>
       `;
+
+      if (scrollOnMobile && window.innerWidth < 1024) {
+        tahqiqDetailCard.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+      }
     }
 
     // ==================== SLIDES 8, 10, 11: SMART COUNTDOWN TIMERS ====================
@@ -1417,6 +1552,9 @@
           const mins = String(Math.floor(remaining / 60)).padStart(2, '0');
           const secs = String(remaining % 60).padStart(2, '0');
           display.textContent = `${toBn(mins)}:${toBn(secs)}`;
+          const isRunning = Boolean(intervalId);
+          startBtn.disabled = isRunning || remaining <= 0;
+          pauseBtn.disabled = !isRunning;
           if (remaining === 0) {
             display.classList.remove('text-[#065F46]');
             display.classList.add('text-red-600');
@@ -1435,14 +1573,17 @@
             } else {
               clearInterval(intervalId);
               intervalId = null;
+              updateDisplay();
             }
           }, 1000);
+          updateDisplay();
         });
 
         pauseBtn.addEventListener('click', () => {
           if (intervalId) {
             clearInterval(intervalId);
             intervalId = null;
+            updateDisplay();
           }
         });
 
@@ -1487,7 +1628,7 @@
             }
           }
           return `
-            <button onclick="selectQuizOption(${qIdx}, ${oIdx})" ${answered ? 'disabled' : ''} class="w-full text-left px-4 py-3 rounded-xl border text-base transition-all ${btnClass}">
+            <button type="button" onclick="selectQuizOption(${qIdx}, ${oIdx})" ${answered ? 'disabled' : ''} class="w-full min-h-[44px] text-left px-4 py-3 rounded-xl border text-base transition-all ${btnClass}">
               <span class="font-bold mr-2">${['ক', 'খ', 'গ', 'ঘ'][oIdx]}.</span> ${opt}
             </button>
           `;
